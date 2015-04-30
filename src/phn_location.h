@@ -22,8 +22,6 @@
 
 #include "phone_number_types.h"
 
-int phn_location_validate_extra_data(phone_number_region_e region, const char *file_name);
-int phn_location_replace_extra_data(phone_number_region_e region, const char *file_name);
 int phn_location_find_extra_data(const char *region_str, char **p_location_file);
 int phn_location_get_location_from_extra_data(const char *file, const char *number,
 		phone_number_region_e region, phone_number_lang_e lang, char **p_location);

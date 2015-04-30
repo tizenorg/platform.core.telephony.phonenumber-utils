@@ -90,32 +90,6 @@ int phone_number_get_location_from_number(const char *number, phone_number_regio
 int phone_number_get_formatted_number(const char *number, phone_number_region_e region, char **formatted_number);
 
 /**
- * @internal
- * @brief Replace the extra location file that includes updated table of region and area code match,
- * used in phone_number_get_location_from_number. Please refer to programming guide for extra location file format.
- *
- * @since_tizen 2.4
- *
- * @param[in]  region      The region of extra location data
- * @param[in]  file_name   The file name of extra location data
- *
- * @return     @c 0 on success,
- *             otherwise a negative error value
- *
- * @retval  #PHONE_NUMBER_ERROR_NONE                          Successful
- * @retval  #PHONE_NUMBER_ERROR_OUT_OF_MEMORY                 Out of memory
- * @retval  #PHONE_NUMBER_ERROR_INVALID_PARAMETER             Invalid parameter
- * @retval  #PHONE_NUMBER_ERROR_FILE_NO_SPACE_ON_DEVICE       FS Full
- * @retval  #PHONE_NUMBER_ERROR_PERMISSION_DENIED             Permission denied
- * @retval  #PHONE_NUMBER_ERROR_NOT_SUPPORTED                 Not supported
- * @retval  #PHONE_NUMBER_ERROR_IO_ERROR                      I/O error
- *
- * @see phone_number_get_location_from_number()
- *
- */
-int phone_number_replace_extra_location_data(phone_number_region_e region, const char *file_name);
-
-/**
  * @}
  */
 

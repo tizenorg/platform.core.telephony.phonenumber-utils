@@ -25,22 +25,6 @@
 #include "phn_location.h"
 #include "phn_region_data.h"
 
-API int phone_number_replace_extra_location_data(phone_number_region_e region, const char *file_name)
-{
-	RETVM_IF(PHONE_NUMBER_REGION_CHINA != region, PHONE_NUMBER_ERROR_NOT_SUPPORTED,
-			"Not supported region(%d)", region);
-	RETVM_IF(NULL == file_name, PHONE_NUMBER_ERROR_INVALID_PARAMETER, "Invalid parameter (file_name is NULL)");
-	RETVM_IF(strchr(file_name, '/'), PHONE_NUMBER_ERROR_INVALID_PARAMETER, "Invalid parameter");
-
-	int ret;
-	ret = phn_location_validate_extra_data(region, file_name);
-	RETVM_IF(PHONE_NUMBER_ERROR_NONE != ret, ret, "phn_location_validate_extra_data() Fail(%d)", ret);
-
-	ret = phn_location_replace_extra_data(region, file_name);
-	RETVM_IF(PHONE_NUMBER_ERROR_NONE != ret, ret, "phn_location_replace_extra_data() Fail(%d)", ret);
-
-	return PHONE_NUMBER_ERROR_NONE;
-}
 
 API int phone_number_get_location_from_number(const char *number,
 		phone_number_region_e region, phone_number_lang_e lang, char **location)
