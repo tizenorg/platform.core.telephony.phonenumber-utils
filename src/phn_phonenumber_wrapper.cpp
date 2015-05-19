@@ -34,7 +34,7 @@ int phn_get_location_from_number(const char *number, const char *region, const c
 	const PhoneNumberUtil& pn_instance = *PhoneNumberUtil::GetInstance();
 	const PhoneNumberUtil::ErrorType status = pn_instance.Parse(
 		number, region, &phNumber);
-	RETVM_IF(status != PhoneNumberUtil::NO_PARSING_ERROR, PHONE_NUMBER_ERROR_INVALID_PARAMETER, "parse() failed(%d)", status);
+	RETVM_IF(status != PhoneNumberUtil::NO_PARSING_ERROR, PHONE_NUMBER_ERROR_NO_DATA, "parse() failed(%d)", status);
 
 	const std::string description =
 		PhoneNumberOfflineGeocoder().GetDescriptionForNumber(
