@@ -1,6 +1,6 @@
 Name:       phonenumber-utils
 Summary:    Phone Number Utilities
-Version:    0.1.4
+Version:    0.1.5
 Release:    0
 Group:      Telephony/Utilities
 License:    Apache-2.0
