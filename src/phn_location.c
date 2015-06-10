@@ -249,13 +249,17 @@ int phn_location_get_location_from_extra_data(const char *file, const char *numb
 
 			if (city_temp && province_temp) {
 				int size = strlen(city_temp) + strlen(province_temp);
-				char *location = calloc(size+3, sizeof(char));
-				snprintf(location, size+3, "%s, %s", city_temp, province_temp);
+				char *location = NULL;
+				location = calloc(size+3, sizeof(char));
+				if (location)
+					snprintf(location, size+3, "%s, %s", city_temp, province_temp);
 				*p_location = location;
 			} else if (city_temp) {
 				int size = strlen(city_temp);
-				char *location = calloc(size+1, sizeof(char));
-				snprintf(location, size+1, "%s", city_temp);
+				char *location = NULL;
+				location = calloc(size+1, sizeof(char));
+				if (location)
+					snprintf(location, size+1, "%s", city_temp);
 				*p_location = location;
 			}
 
@@ -270,9 +274,11 @@ int phn_location_get_location_from_extra_data(const char *file, const char *numb
 
 	if (region != PHONE_NUMBER_REGION_CHINA) {
 		ERR("Invalid region(%d)", region);
+		close(fd);
 		return PHONE_NUMBER_ERROR_NO_DATA;
 	} else if (strlen(number) < PHN_LOCATION_CHINA_MOBILE_NUMBER_MIN_LEN) {
 		ERR("Invalid number(%s)", number);
+		close(fd);
 		return PHONE_NUMBER_ERROR_INVALID_PARAMETER;
 	}
 
@@ -308,6 +314,10 @@ int phn_location_get_location_from_extra_data(const char *file, const char *numb
 					+ (num_suffix*sizeof(gint16)), SEEK_CUR);
 			ret = read(fd, &mobile_prefix, sizeof(gint16));
 			WARN_IF(ret < 0, "read() Fail(%d)", errno);
+			if (0 == mobile_prefix) {
+				ERR("Invalid value:mobile_prefix is 0");
+				continue;
+			}
 
 			switch (lang_index) {
 			case 0:
@@ -355,13 +365,17 @@ int phn_location_get_location_from_extra_data(const char *file, const char *numb
 
 			if (city_temp && province_temp) {
 				int size = strlen(city_temp) + strlen(province_temp);
-				char *location = calloc(size+3, sizeof(char));
-				snprintf(location, size+3, "%s, %s", city_temp, province_temp);
+				char *location = NULL;
+				location = calloc(size+3, sizeof(char));
+				if (location)
+					snprintf(location, size+3, "%s, %s", city_temp, province_temp);
 				*p_location = location;
 			} else if (city_temp) {
 				int size = strlen(city_temp);
-				char *location = calloc(size+1, sizeof(char));
-				snprintf(location, size+1, "%s", city_temp);
+				char *location = NULL;
+				location = calloc(size+1, sizeof(char));
+				if (location)
+					snprintf(location, size+1, "%s", city_temp);
 				*p_location = location;
 			}
 			close(fd);
