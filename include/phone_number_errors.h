@@ -16,7 +16,6 @@
  * limitations under the License.
  *
  */
-
 #ifndef __TIZEN_TELEPHONY_PHONE_NUMBER_UTILS_ERRORS_H__
 #define __TIZEN_TELEPHONY_PHONE_NUMBER_UTILS_ERRORS_H__
 
@@ -38,8 +37,7 @@
  * @since_tizen 2.4
  *
  */
-typedef enum
-{
+typedef enum {
 	/* GENERAL */
 	PHONE_NUMBER_ERROR_NONE                        = TIZEN_ERROR_NONE,                      /**< Successful */
 	PHONE_NUMBER_ERROR_IO_ERROR                    = TIZEN_ERROR_IO_ERROR,                  /**< I/O Error */
@@ -56,4 +54,4 @@ typedef enum
  * @}
  */
 
-#endif // __TIZEN_TELEPHONY_PHONE_NUMBER_UTILS_ERRORS_H__
+#endif /* __TIZEN_TELEPHONY_PHONE_NUMBER_UTILS_ERRORS_H__ */

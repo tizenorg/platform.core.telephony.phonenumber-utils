@@ -16,7 +16,6 @@
  * limitations under the License.
  *
  */
-
 #ifndef __PHN_COMMON_H__
 #define __PHN_COMMON_H__
 
@@ -32,7 +31,7 @@
 #endif
 
 #define DLOG(prio, fmt, arg...) \
-  do { SLOG(prio, LOG_TAG, fmt, ##arg); } while(0);
+	do { SLOG(prio, LOG_TAG, fmt, ##arg); } while (0);
 #define INFO(fmt, arg...) SLOGI(fmt, ##arg)
 #define WARN(fmt, arg...) SLOGW("%s:%d " fmt, __FUNCTION__, __LINE__, ##arg)
 #define ERR(fmt, arg...) SLOGE("%s:%d " fmt, __FUNCTION__, __LINE__, ##arg)
@@ -68,4 +67,4 @@
 	} \
 } while (0)
 
-#endif // __PHN_COMMON_H__
+#endif /* __PHN_COMMON_H__ */

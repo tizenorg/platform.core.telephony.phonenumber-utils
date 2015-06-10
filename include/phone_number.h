@@ -16,7 +16,6 @@
  * limitations under the License.
  *
  */
-
 #ifndef __TIZEN_TELEPHONY_PHONE_NUMBER_UTILS_H__
 #define __TIZEN_TELEPHONY_PHONE_NUMBER_UTILS_H__
 
@@ -53,16 +52,17 @@ extern "C"
  * @return     @c 0 on success,
  *             otherwise a negative error value
  *
- * @retval  #PHONE_NUMBER_ERROR_NONE                          Successful
- * @retval  #PHONE_NUMBER_ERROR_OUT_OF_MEMORY                 Out of memory
- * @retval  #PHONE_NUMBER_ERROR_INVALID_PARAMETER             Invalid parameter
- * @retval  #PHONE_NUMBER_ERROR_FILE_NO_SPACE_ON_DEVICE       FS Full
- * @retval  #PHONE_NUMBER_ERROR_PERMISSION_DENIED             Permission denied
- * @retval  #PHONE_NUMBER_ERROR_NOT_SUPPORTED                 Not supported
- * @retval  #PHONE_NUMBER_ERROR_NO_DATA                       Requested data does not exist
+ * @retval  #PHONE_NUMBER_ERROR_NONE                        Successful
+ * @retval  #PHONE_NUMBER_ERROR_OUT_OF_MEMORY               Out of memory
+ * @retval  #PHONE_NUMBER_ERROR_INVALID_PARAMETER           Invalid parameter
+ * @retval  #PHONE_NUMBER_ERROR_FILE_NO_SPACE_ON_DEVICE     FS Full
+ * @retval  #PHONE_NUMBER_ERROR_PERMISSION_DENIED           Permission denied
+ * @retval  #PHONE_NUMBER_ERROR_NOT_SUPPORTED               Not supported
+ * @retval  #PHONE_NUMBER_ERROR_NO_DATA                     Requested data does not exist
  *
  */
-int phone_number_get_location_from_number(const char *number, phone_number_region_e region, phone_number_lang_e language, char **location);
+int phone_number_get_location_from_number(const char *number,
+		phone_number_region_e region, phone_number_lang_e language, char **location);
 
 /**
  * @brief This function gets the formatted number.
@@ -78,16 +78,17 @@ int phone_number_get_location_from_number(const char *number, phone_number_regio
  * @return     @c 0 on success,
  *             otherwise a negative error value
  *
- * @retval  #PHONE_NUMBER_ERROR_NONE                          Successful
- * @retval  #PHONE_NUMBER_ERROR_OUT_OF_MEMORY                 Out of memory
- * @retval  #PHONE_NUMBER_ERROR_INVALID_PARAMETER             Invalid parameter
- * @retval  #PHONE_NUMBER_ERROR_FILE_NO_SPACE_ON_DEVICE       FS Full
- * @retval  #PHONE_NUMBER_ERROR_PERMISSION_DENIED             Permission denied
- * @retval  #PHONE_NUMBER_ERROR_NOT_SUPPORTED                 Not supported
- * @retval  #PHONE_NUMBER_ERROR_NO_DATA                       Requested data does not exist
+ * @retval  #PHONE_NUMBER_ERROR_NONE                        Successful
+ * @retval  #PHONE_NUMBER_ERROR_OUT_OF_MEMORY               Out of memory
+ * @retval  #PHONE_NUMBER_ERROR_INVALID_PARAMETER           Invalid parameter
+ * @retval  #PHONE_NUMBER_ERROR_FILE_NO_SPACE_ON_DEVICE     FS Full
+ * @retval  #PHONE_NUMBER_ERROR_PERMISSION_DENIED           Permission denied
+ * @retval  #PHONE_NUMBER_ERROR_NOT_SUPPORTED               Not supported
+ * @retval  #PHONE_NUMBER_ERROR_NO_DATA                     Requested data does not exist
  *
  */
-int phone_number_get_formatted_number(const char *number, phone_number_region_e region, char **formatted_number);
+int phone_number_get_formatted_number(const char *number, phone_number_region_e region,
+		char **formatted_number);
 
 /**
  * @}
@@ -97,4 +98,4 @@ int phone_number_get_formatted_number(const char *number, phone_number_region_e 
 }
 #endif
 
-#endif // __TIZEN_TELEPHONY_PHONE_NUMBER_UTILS_H__
+#endif /* __TIZEN_TELEPHONY_PHONE_NUMBER_UTILS_H__ */

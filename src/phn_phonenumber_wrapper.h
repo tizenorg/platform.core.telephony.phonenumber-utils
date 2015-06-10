@@ -16,7 +16,6 @@
  * limitations under the License.
  *
  */
-
 #ifndef __PHN_PHONENUMBER_WRAPPER_H__
 #define __PHN_PHONENUMBER_WRAPPER_H__
 
@@ -24,11 +23,13 @@
 extern "C" {
 #endif
 
-int phn_get_formatted_number(const char *number, const char *region, char **formatted_number);
-int phn_get_location_from_number(const char *number, const char *region, const char *language, char **location);
+int phn_get_formatted_number(const char *number, const char *region,
+		char **formatted_number);
+int phn_get_location_from_number(const char *number, const char *region,
+		const char *language, char **location);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // __PHN_PHONENUMBER_WRAPPER_H__
+#endif /* __PHN_PHONENUMBER_WRAPPER_H__ */
