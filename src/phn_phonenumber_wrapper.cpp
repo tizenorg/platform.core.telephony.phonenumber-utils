@@ -16,7 +16,6 @@
  * limitations under the License.
  *
  */
-
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>

@@ -16,7 +16,6 @@
  * limitations under the License.
  *
  */
-
 #ifndef __TIZEN_TELEPHONY_PHONE_NUMBER_UTILS_TYPES_H__
 #define __TIZEN_TELEPHONY_PHONE_NUMBER_UTILS_TYPES_H__
 
@@ -69,7 +68,7 @@ typedef enum {
 	PHONE_NUMBER_LANG_TURKISH,                      /**< Turkish */
 	PHONE_NUMBER_LANG_VIETNAMESE,                   /**< Vietnamese */
 	PHONE_NUMBER_LANG_MAX,
-}phone_number_lang_e;
+} phone_number_lang_e;
 
 /**
  * @brief Enumeration for region type.
@@ -211,11 +210,11 @@ typedef enum {
 	PHONE_NUMBER_REGION_ZAMBIA,                                     /**< Zambia */
 	PHONE_NUMBER_REGION_ZIMBABWE,                                   /**< Zimbabwe */
 	PHONE_NUMBER_REGION_MAX,
-}phone_number_region_e;
+} phone_number_region_e;
 
 
 /**
  * @}
  */
 
-#endif // __TIZEN_TELEPHONY_PHONE_NUMBER_UTILS_TYPES_H__
+#endif /* __TIZEN_TELEPHONY_PHONE_NUMBER_UTILS_TYPES_H__ */

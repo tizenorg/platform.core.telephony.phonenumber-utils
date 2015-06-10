@@ -16,7 +16,6 @@
  * limitations under the License.
  *
  */
-
 #ifndef __PHN_REGION_DATA_H__
 #define __PHN_REGION_DATA_H__
 
@@ -26,6 +25,7 @@
 
 const char* phn_region_data_get_region_str(phone_number_region_e region);
 const char* phn_region_data_get_lang_str(phone_number_lang_e lang);
-bool phn_region_data_find_match_info(phone_number_region_e region, phone_number_lang_e lang);
+bool phn_region_data_find_match_info(phone_number_region_e region,
+		phone_number_lang_e lang);
 
-#endif
+#endif /* __PHN_REGION_DATA_H__ */

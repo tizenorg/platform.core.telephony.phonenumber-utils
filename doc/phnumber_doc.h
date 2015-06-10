@@ -16,7 +16,6 @@
  * limitations under the License.
  *
  */
-
 #ifndef __TIZEN_TELEPHONY_PHONE_NUMBER_UTILS_DOC_H__
 #define __TIZEN_TELEPHONY_PHONE_NUMBER_UTILS_DOC_H__
 
@@ -33,4 +32,4 @@
  * The phonenumber utils API provides methods for parsing and formatting phone numbers.
  */
 
-#endif //  __TIZEN_TELEPHONY_PHONE_NUMBER_UTILS_DOC_H__
+#endif /*  __TIZEN_TELEPHONY_PHONE_NUMBER_UTILS_DOC_H__ */

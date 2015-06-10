@@ -16,7 +16,6 @@
  * limitations under the License.
  *
  */
-
 #ifndef __PHN_LOCATION_H__
 #define __PHN_LOCATION_H__
 
@@ -26,4 +25,4 @@ int phn_location_find_extra_data(const char *region_str, char **p_location_file)
 int phn_location_get_location_from_extra_data(const char *file, const char *number,
 		phone_number_region_e region, phone_number_lang_e lang, char **p_location);
 
-#endif
+#endif /* __PHN_LOCATION_H__ */
