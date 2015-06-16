@@ -178,18 +178,26 @@ int phn_location_get_location_from_extra_data(const char *file, const char *numb
 		gunichar2 city3[header.mobile_city_len[2]/2];
 	};
 
+	if (header.province_count <= 0) {
+		ERR("Invalid provice_count(%d)", header.province_count);
+		close(fd);
+		return PHONE_NUMBER_ERROR_NOT_SUPPORTED;
+	}
 	struct phn_province_info province_info[header.province_count];
-	ret = read(fd, &province_info,
-			sizeof(struct phn_province_info)*header.province_count);
+	ret = read(fd, &province_info, sizeof(province_info));
 	if (ret <= 0) {
 		ERR("read() Fail(%d)", errno);
 		close(fd);
 		return PHONE_NUMBER_ERROR_NOT_SUPPORTED;
 	}
 
+	if (header.telephone_city_count <= 0) {
+		ERR("Invalid telephone_city_count(%d)", header.telephone_city_count);
+		close(fd);
+		return PHONE_NUMBER_ERROR_NOT_SUPPORTED;
+	}
 	struct phn_telephone_city_info telephone_city_info[header.telephone_city_count];
-	ret = read(fd, &telephone_city_info,
-			sizeof(struct phn_telephone_city_info)*header.telephone_city_count);
+	ret = read(fd, &telephone_city_info, sizeof(telephone_city_info));
 	if (ret <= 0) {
 		ERR("read() Fail(%d)", errno);
 		close(fd);
@@ -197,7 +205,9 @@ int phn_location_get_location_from_extra_data(const char *file, const char *numb
 	}
 
 	int i;
-	for (i = 0; i < header.telephone_city_count; i++) {
+	int telephone_city_count =
+		sizeof(telephone_city_info) /sizeof(struct phn_telephone_city_info);
+	for (i = 0; i < telephone_city_count; i++) {
 		gint8 provice_idx;
 		gint16 prefix = telephone_city_info[i].prefix;
 		char prefix_str[PHN_STR_SHORT_LEN] = {0};
@@ -282,18 +292,26 @@ int phn_location_get_location_from_extra_data(const char *file, const char *numb
 		return PHONE_NUMBER_ERROR_INVALID_PARAMETER;
 	}
 
+	if (header.mobile_city_count <= 0) {
+		ERR("Invalid mobile_city_count(%d)", header.mobile_city_count);
+		close(fd);
+		return PHONE_NUMBER_ERROR_NOT_SUPPORTED;
+	}
 	struct phn_mobile_city_info mobile_city_info[header.mobile_city_count];
-	read_size = sizeof(struct phn_mobile_city_info)*header.mobile_city_count;
-	ret = read(fd, &mobile_city_info, read_size);
+	ret = read(fd, &mobile_city_info, sizeof(mobile_city_info));
 	if (ret <= 0) {
 		ERR("read() Fail(%d)", errno);
 		close(fd);
 		return PHONE_NUMBER_ERROR_NOT_SUPPORTED;
 	}
 
+	if (header.mobile_prefix_index_count <= 0) {
+		ERR("Invalid mobile_prefix_index_count(%d)", header.mobile_prefix_index_count);
+		close(fd);
+		return PHONE_NUMBER_ERROR_NOT_SUPPORTED;
+	}
 	gint16 mobile_prefix_info[header.mobile_prefix_index_count];
-	read_size = sizeof(gint16)*header.mobile_prefix_index_count;
-	ret = read(fd, &mobile_prefix_info, read_size);
+	ret = read(fd, &mobile_prefix_info, sizeof(mobile_prefix_info));
 	if (ret <= 0) {
 		ERR("read() Fail(%d)", errno);
 		close(fd);
@@ -307,7 +325,8 @@ int phn_location_get_location_from_extra_data(const char *file, const char *numb
 	int num_prefix = atoi(num_prefix_str);
 	int num_suffix = atoi(num_suffix_str);
 
-	for (i = 0; i < header.mobile_prefix_index_count; i++) {
+	int mobile_prefix_index_count = sizeof(mobile_prefix_info) / sizeof(gint16);
+	for (i = 0; i < mobile_prefix_index_count; i++) {
 		if (num_prefix == mobile_prefix_info[i]) {
 			gint16 mobile_prefix = 0;
 			ret = lseek(fd, (PHN_LOCATION_CHINA_MOBILE_SUFFIX_OFFSET*sizeof(gint16)*i)
