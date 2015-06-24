@@ -29,14 +29,8 @@
 #include "phn_region_data.h"
 #include "phn_location.h"
 
-#define PHN_PATH_MAX_LEN 1024
-#define PHN_COPY_SIZE_MAX 4096
-
 #define PHN_LOCATION_DIR "/opt/usr/data/phonenumber-utils"
-#define PHN_LOCATION_DOWNLOAD_DIR "/opt/usr/data/phonenumber-utils/downloads"
 #define PHN_LOCATION_FILE_PREFIX "location"
-#define PHN_LOCATION_LANG_INDEX_MAX 3
-#define PHN_LOCATION_FILE_MARK 0xfefe0000
 
 #define PHN_LOCATION_CHINA_MOBILE_SUFFIX_OFFSET 10000
 #define PHN_LOCATION_CHINA_MOBILE_PREFIX_LEN 3
@@ -58,7 +52,7 @@ struct phn_location_header {
 	int mobile_prefix_len;
 };
 
-int phn_location_find_extra_data(const char *region_str, char **p_location_file)
+int phn_location_find_extra_data(char *region_str, char **p_location_file)
 {
 	DIR *dirp = NULL;
 	struct dirent **dir_list;
@@ -80,7 +74,7 @@ int phn_location_find_extra_data(const char *region_str, char **p_location_file)
 		while (idx != count) {
 			const char *file_name = dir_list[idx]->d_name;
 			if (0 == strncmp(file_name, location_prefix, strlen(location_prefix))) {
-				location_file = strdup(file_name);
+				location_file = g_strdup(file_name);
 				break;
 			}
 			idx++;
@@ -97,7 +91,7 @@ int phn_location_find_extra_data(const char *region_str, char **p_location_file)
 }
 
 int phn_location_get_location_from_extra_data(const char *file, const char *number,
-		phone_number_region_e region, phone_number_lang_e lang, char **p_location)
+		char *region_str, char *lang_str, char **p_location)
 {
 	int ret = 0;
 	int city_str_len = 0;
@@ -110,29 +104,28 @@ int phn_location_get_location_from_extra_data(const char *file, const char *numb
 	char file_path[PHN_STR_SHORT_LEN] = {0};
 
 	/* support region - CN, support lang - zh,en,ko */
-	RETVM_IF(region != PHONE_NUMBER_REGION_CHINA, PHONE_NUMBER_ERROR_NOT_SUPPORTED,
-			"Not supported region(%d)", region);
-
-	int lang_index = 0;
-	switch (lang) {
-	case PHONE_NUMBER_LANG_CHINESE:
-		lang_index = 0;
-		break;
-	case PHONE_NUMBER_LANG_ENGLISH:
-		lang_index = 1;
-		break;
-	case PHONE_NUMBER_LANG_KOREAN:
-		lang_index = 2;
-		break;
-	default:
-		ERR("Not supported lang(%d)", lang);
-		return PHONE_NUMBER_ERROR_NOT_SUPPORTED;
-	}
+	RETV_IF(NULL == region_str, PHONE_NUMBER_ERROR_INVALID_PARAMETER);
+	RETV_IF(NULL == lang_str, PHONE_NUMBER_ERROR_INVALID_PARAMETER);
 
 	while (real_number && real_number[0] == '0')
 		real_number++;
 	RETVM_IF(NULL == real_number, PHONE_NUMBER_ERROR_INVALID_PARAMETER, "number=%s",
 			number);
+
+	char lang_region[PHN_STR_SHORT_LEN] = {0};
+	snprintf(lang_region, sizeof(lang_region), "%s_%s", lang_str, region_str);
+
+	int lang_index = 0;
+	if (STRING_EQUAL == strcmp(lang_region, PHN_LOCATION_SUPPORT_ZH_CN)) {
+		lang_index = 0;
+	} else if (STRING_EQUAL == strcmp(lang_region, PHN_LOCATION_SUPPORT_EN_CN)) {
+		lang_index = 1;
+	} else if (STRING_EQUAL == strcmp(lang_region, PHN_LOCATION_SUPPORT_KO_CN)) {
+		lang_index = 2;
+	} else {
+		ERR("Not supported(%s)", lang_region);
+		return PHONE_NUMBER_ERROR_NOT_SUPPORTED;
+	}
 
 	snprintf(file_path, sizeof(file_path), "%s/%s", PHN_LOCATION_DIR, file);
 
@@ -281,11 +274,7 @@ int phn_location_get_location_from_extra_data(const char *file, const char *numb
 		}
 	}
 
-	if (region != PHONE_NUMBER_REGION_CHINA) {
-		ERR("Invalid region(%d)", region);
-		close(fd);
-		return PHONE_NUMBER_ERROR_NO_DATA;
-	} else if (strlen(number) < PHN_LOCATION_CHINA_MOBILE_NUMBER_MIN_LEN) {
+	if (strlen(number) < PHN_LOCATION_CHINA_MOBILE_NUMBER_MIN_LEN) {
 		ERR("Invalid number(%s)", number);
 		close(fd);
 		return PHONE_NUMBER_ERROR_INVALID_PARAMETER;

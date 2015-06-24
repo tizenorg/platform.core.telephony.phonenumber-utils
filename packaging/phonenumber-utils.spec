@@ -1,6 +1,6 @@
 Name:       phonenumber-utils
 Summary:    Phone Number Utilities
-Version:    0.1.6
+Version:    0.1.7
 Release:    0
 Group:      Telephony/Utilities
 License:    Apache-2.0
@@ -13,6 +13,7 @@ BuildRequires: pkgconfig(dlog)
 BuildRequires: pkgconfig(icu-i18n)
 BuildRequires: pkgconfig(protobuf)
 BuildRequires: pkgconfig(capi-base-common)
+BuildRequires: pkgconfig(capi-system-system-settings)
 BuildRequires: libphonenumber-devel
 
 %description

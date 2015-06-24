@@ -16,6 +16,10 @@
  * limitations under the License.
  *
  */
+#include <stdlib.h>
+#include <glib.h>
+#include <system_settings.h>
+
 #include "phn_common.h"
 #include "phn_region_data.h"
 
@@ -108,6 +112,7 @@ const struct phn_match_info phn_match_info_table[] = {
 	{PHONE_NUMBER_REGION_TURKEY, PHONE_NUMBER_LANG_TURKISH},
 	{PHONE_NUMBER_REGION_SAUDI_ARABIA, PHONE_NUMBER_LANG_ARABIC},
 	{PHONE_NUMBER_REGION_ISLAMIC_REPUBLIC_OF_IRAN, PHONE_NUMBER_LANG_PERSIAN},
+	{PHONE_NUMBER_REGION_SYSTEM, PHONE_NUMBER_LANG_SYSTEM},
 };
 
 const struct phn_lang_info phn_lang_info_table[] = {
@@ -278,25 +283,56 @@ const struct phn_region_info phn_region_info_table[] = {
 	{"ZW", PHONE_NUMBER_REGION_ZIMBABWE},
 };
 
-const char* phn_region_data_get_region_str(phone_number_region_e region)
+int phn_region_data_get_region_str(phone_number_region_e region, char **region_str)
 {
-	int i;
+	int ret, i;
+
+	if (PHONE_NUMBER_REGION_SYSTEM == region) {
+		char *str = NULL;
+		ret = system_settings_get_value_string(SYSTEM_SETTINGS_KEY_LOCALE_COUNTRY, &str);
+		if (str)
+			*region_str = g_strdup(strchr(str, '_') + 1);
+		free(str);
+		if (SYSTEM_SETTINGS_ERROR_NONE != ret) {
+			ERR("system_settings_get_value_string() Fail(%d)", ret);
+			return PHONE_NUMBER_ERROR_NOT_SUPPORTED;
+		}
+		return PHONE_NUMBER_ERROR_NONE;
+	}
 
 	for (i = 0; i < sizeof(phn_region_info_table)/sizeof(struct phn_region_info); i++) {
-		if (phn_region_info_table[i].region == region)
-			return phn_region_info_table[i].region_str;
+		if (phn_region_info_table[i].region == region) {
+			*region_str = g_strdup(phn_region_info_table[i].region_str);
+			return PHONE_NUMBER_ERROR_NONE;
+		}
 	}
-	return NULL;
+	return PHONE_NUMBER_ERROR_NOT_SUPPORTED;
 }
 
-const char* phn_region_data_get_lang_str(phone_number_lang_e lang)
+int phn_region_data_get_lang_str(phone_number_lang_e lang, char **lang_str)
 {
-	int i;
-	for (i = 0; i < sizeof(phn_lang_info_table)/sizeof(struct phn_lang_info); i++) {
-		if (phn_lang_info_table[i].lang == lang)
-			return phn_lang_info_table[i].lang_str;
+	int ret, i;
+
+	if (PHONE_NUMBER_LANG_SYSTEM == lang) {
+		char *str = NULL;
+		ret = system_settings_get_value_string(SYSTEM_SETTINGS_KEY_LOCALE_LANGUAGE, &str);
+		if (str)
+			*lang_str = g_strdup(strtok(str, "_"));
+		free(str);
+		if (SYSTEM_SETTINGS_ERROR_NONE != ret) {
+			ERR("system_settings_get_value_string() Fail(%d)", ret);
+			return PHONE_NUMBER_ERROR_NOT_SUPPORTED;
+		}
+		return PHONE_NUMBER_ERROR_NONE;
 	}
-	return NULL;
+
+	for (i = 0; i < sizeof(phn_lang_info_table)/sizeof(struct phn_lang_info); i++) {
+		if (phn_lang_info_table[i].lang == lang) {
+			*lang_str = g_strdup(phn_lang_info_table[i].lang_str);
+			return PHONE_NUMBER_ERROR_NONE;
+		}
+	}
+	return PHONE_NUMBER_ERROR_NOT_SUPPORTED;
 }
 
 bool phn_region_data_find_match_info(phone_number_region_e region,

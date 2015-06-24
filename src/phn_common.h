@@ -22,6 +22,7 @@
 #include "phone_number_errors.h"
 
 #define PHN_STR_SHORT_LEN 1024
+#define STRING_EQUAL 0
 
 #define LOG_TAG "PHONE_NUMBER_UTILS"
 #include <dlog.h>

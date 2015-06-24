@@ -67,6 +67,7 @@ typedef enum {
 	PHONE_NUMBER_LANG_THAI,                         /**< Thai */
 	PHONE_NUMBER_LANG_TURKISH,                      /**< Turkish */
 	PHONE_NUMBER_LANG_VIETNAMESE,                   /**< Vietnamese */
+	PHONE_NUMBER_LANG_SYSTEM,                       /**< Current System Value (Since 3.0) */
 	PHONE_NUMBER_LANG_MAX,
 } phone_number_lang_e;
 
@@ -209,6 +210,7 @@ typedef enum {
 	PHONE_NUMBER_REGION_WESTERN_SAHARA,                             /**< Western Sahara */
 	PHONE_NUMBER_REGION_ZAMBIA,                                     /**< Zambia */
 	PHONE_NUMBER_REGION_ZIMBABWE,                                   /**< Zimbabwe */
+	PHONE_NUMBER_REGION_SYSTEM,                                     /**< Current System Value (Since 3.0) */
 	PHONE_NUMBER_REGION_MAX,
 } phone_number_region_e;
 
