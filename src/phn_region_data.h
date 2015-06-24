@@ -23,8 +23,8 @@
 
 #define PHN_REGION_DEFAULT_LANG "en"
 
-const char* phn_region_data_get_region_str(phone_number_region_e region);
-const char* phn_region_data_get_lang_str(phone_number_lang_e lang);
+int phn_region_data_get_region_str(phone_number_region_e region, char **region_str);
+int phn_region_data_get_lang_str(phone_number_lang_e lang, char **lang_str);
 bool phn_region_data_find_match_info(phone_number_region_e region,
 		phone_number_lang_e lang);
 
