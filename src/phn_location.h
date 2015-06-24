@@ -21,8 +21,12 @@
 
 #include "phone_number_types.h"
 
-int phn_location_find_extra_data(const char *region_str, char **p_location_file);
+#define PHN_LOCATION_SUPPORT_ZH_CN "zh_CN"
+#define PHN_LOCATION_SUPPORT_EN_CN "en_CN"
+#define PHN_LOCATION_SUPPORT_KO_CN "ko_CN"
+
+int phn_location_find_extra_data(char *region_str, char **p_location_file);
 int phn_location_get_location_from_extra_data(const char *file, const char *number,
-		phone_number_region_e region, phone_number_lang_e lang, char **p_location);
+		char *region_str, char *lang_str, char **p_location);
 
 #endif /* __PHN_LOCATION_H__ */

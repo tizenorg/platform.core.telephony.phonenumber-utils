@@ -30,8 +30,8 @@ API int phone_number_get_location_from_number(const char *number,
 		phone_number_region_e region, phone_number_lang_e lang, char **location)
 {
 	int ret;
-	const char *region_str = NULL;
-	const char *lang_str = NULL;
+	char *region_str = NULL;
+	char *lang_str = NULL;
 
 	RETVM_IF(NULL == number || '\0' == *number, PHONE_NUMBER_ERROR_INVALID_PARAMETER,
 			"Invalid parameter (number is NULL)");
@@ -42,35 +42,56 @@ API int phone_number_get_location_from_number(const char *number,
 	RETVM_IF(NULL == location, PHONE_NUMBER_ERROR_INVALID_PARAMETER,
 			"Invalid parameter (location is NULL)");
 
-	region_str = phn_region_data_get_region_str(region);
-	RETVM_IF(NULL == region_str, PHONE_NUMBER_ERROR_NOT_SUPPORTED, "phn_region_info not found(%d)", region);
+	ret = phn_region_data_get_region_str(region, &region_str);
+	if (PHONE_NUMBER_ERROR_NONE != ret) {
+		ERR("phn_region_data_get_region_str() Fail(%d)", ret);
+		return ret;
+	}
 
-	lang_str = phn_region_data_get_lang_str(lang);
-	RETVM_IF(NULL == lang_str, PHONE_NUMBER_ERROR_NOT_SUPPORTED, "phn_lang_info not found(%d)", lang);
+	ret = phn_region_data_get_lang_str(lang, &lang_str);
+	if (PHONE_NUMBER_ERROR_NONE != ret) {
+		ERR("phn_region_data_get_lang_str() Fail(%d)", ret);
+		free(region_str);
+		return ret;
+	}
 
 	char *location_file = NULL;
 	ret = phn_location_find_extra_data(region_str, &location_file);
 	if (PHONE_NUMBER_ERROR_NONE == ret && location_file) {
-		ret = phn_location_get_location_from_extra_data(location_file, number, region, lang, location);
+		ret = phn_location_get_location_from_extra_data(location_file, number,
+				region_str, lang_str, location);
 		free(location_file);
-		if (PHONE_NUMBER_ERROR_NONE == ret && *location)
+		if (PHONE_NUMBER_ERROR_NONE == ret && *location) {
+			free(region_str);
+			free(lang_str);
 			return PHONE_NUMBER_ERROR_NONE;
+		}
 	}
 
 	bool exist = phn_region_data_find_match_info(region, lang);
-	if (!exist)
-		lang_str = PHN_REGION_DEFAULT_LANG;
+	if (false == exist) {
+		INFO("Language not matched with Region. Set to defualt language.");
+		free(lang_str);
+		lang_str = strdup(PHN_REGION_DEFAULT_LANG);
+	}
 
 	ret = phn_get_location_from_number(number, region_str, lang_str, location);
-	RETVM_IF(PHONE_NUMBER_ERROR_NONE != ret, ret, "phn_get_location_from_number() Fail(%d)", ret);
+	if (PHONE_NUMBER_ERROR_NONE != ret) {
+		ERR("phn_get_location_from_number() Fail(%d)", ret);
+		free(region_str);
+		free(lang_str);
+		return ret;
+	}
 
+	free(region_str);
+	free(lang_str);
 	return PHONE_NUMBER_ERROR_NONE;
 }
 
 API int phone_number_get_formatted_number(const char *number, phone_number_region_e region, char **formatted_number)
 {
 	int ret;
-	const char *region_str = NULL;
+	char *region_str = NULL;
 
 	RETVM_IF(NULL == number || '\0' == *number, PHONE_NUMBER_ERROR_INVALID_PARAMETER,
 			"Invalid parameter (number is NULL)");
@@ -78,12 +99,20 @@ API int phone_number_get_formatted_number(const char *number, phone_number_regio
 			"Invalid parameter (region:%d)", region);
 	RETVM_IF(NULL == formatted_number, PHONE_NUMBER_ERROR_INVALID_PARAMETER, "Invalid parameter (formatted_number is NULL)");
 
-	region_str = phn_region_data_get_region_str(region);
-	RETVM_IF(NULL == region_str, PHONE_NUMBER_ERROR_NOT_SUPPORTED, "phn_region_info not found(%d)", region);
+	ret = phn_region_data_get_region_str(region, &region_str);
+	if (PHONE_NUMBER_ERROR_NONE != ret) {
+		ERR("phn_region_data_get_region_str() Fail(%d)", ret);
+		return ret;
+	}
 
 	ret = phn_get_formatted_number(number, region_str, formatted_number);
-	RETVM_IF(PHONE_NUMBER_ERROR_NONE != ret, ret, "phn_get_formatted_number() Fail(%d)", ret);
+	if (PHONE_NUMBER_ERROR_NONE != ret) {
+		ERR("phn_get_formatted_number() Fail(%d)", ret);
+		free(region_str);
+		return ret;
+	}
 
+	free(region_str);
 	return PHONE_NUMBER_ERROR_NONE;
 }
 

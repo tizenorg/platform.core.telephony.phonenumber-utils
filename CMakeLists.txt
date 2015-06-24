@@ -13,7 +13,7 @@ SET(SRC_FILE
 	src/phn_phonenumber_wrapper.cpp
 )
 INCLUDE(FindPkgConfig)
-pkg_check_modules(PN_pkgs REQUIRED dlog icu-i18n glib-2.0 capi-base-common)
+pkg_check_modules(PN_pkgs REQUIRED dlog icu-i18n glib-2.0 capi-base-common capi-system-system-settings)
 INCLUDE_DIRECTORIES(${PN_pkgs_INCLUDE_DIRS})
 LINK_DIRECTORIES(${PN_pkgs_LIBRARY_DIRS})
 
