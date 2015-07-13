@@ -1,16 +1,5 @@
 <manifest>
-	<define>
-		<domain name="phonenumber-utils" />
-		<provide>
-			<label name="phonenumber-utils::db" />
-		</provide>
-	</define>
-	<assign>
-		<filesystem path="/usr/lib/libphonenumber-utils.so*" label="_" exec_label="_" />
-		<filesystem path="/opt/usr/data/phonenumber-utils" label="phonenumber-utils::db" type="transmutable" />
-		<filesystem path="/opt/usr/data/phonenumber-utils/downloads" label="phonenumber-utils::db" type="transmutable" />
-	</assign>
 	<request>
-		<domain name="phonenumber-utils" />
+		<domain name="_"/>
 	</request>
 </manifest>

@@ -102,7 +102,6 @@ int phn_location_get_location_from_extra_data(const char *file, const char *numb
 	int ret = 0;
 	int city_str_len = 0;
 	int province_str_len = 0;
-	size_t read_size;
 	gchar *city_temp = NULL;
 	gchar *province_temp = NULL;
 	const char *real_number = number;
