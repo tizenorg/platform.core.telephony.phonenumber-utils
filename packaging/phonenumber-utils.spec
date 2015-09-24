@@ -14,6 +14,7 @@ BuildRequires: pkgconfig(icu-i18n)
 BuildRequires: pkgconfig(protobuf)
 BuildRequires: pkgconfig(capi-base-common)
 BuildRequires: pkgconfig(capi-system-system-settings)
+BuildRequires: pkgconfig(tapi)
 BuildRequires: libphonenumber-devel
 
 %description
