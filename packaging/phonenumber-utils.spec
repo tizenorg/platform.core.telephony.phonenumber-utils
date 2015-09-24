@@ -14,10 +14,11 @@ BuildRequires: pkgconfig(icu-i18n)
 BuildRequires: pkgconfig(protobuf)
 BuildRequires: pkgconfig(capi-base-common)
 BuildRequires: pkgconfig(capi-system-system-settings)
+BuildRequires: pkgconfig(tapi)
 BuildRequires: libphonenumber-devel
 
 %description
-Phone Number Utilities(location, formatted number)
+Phone Number Utilities(location, formatted number, normalized number)
 
 %package devel
 Summary:    Phone Number Utilities (devel)

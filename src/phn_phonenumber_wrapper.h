@@ -27,6 +27,7 @@ int phn_get_formatted_number(const char *number, const char *region,
 		char **formatted_number);
 int phn_get_location_from_number(const char *number, const char *region,
 		const char *language, char **location);
+int phn_get_normalized_number(const char *number, char **out_e164);
 
 #ifdef __cplusplus
 }
