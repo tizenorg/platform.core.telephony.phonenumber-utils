@@ -30,6 +30,18 @@
  *
  * @section CAPI_TELEPHONY_PHONE_NUMBER_UTILS_MODULE_OVERVIEW Overview
  * The phonenumber utils API provides methods for parsing and formatting phone numbers.
+ *
+ * @section CAPI_TELEPHONY_INFORMATION_SIM_FEATURE Related Features
+ * This API is related with the following feature:\n
+ * - http://tizen.org/feature/network.telephony
+ *
+ * It is recommended to design feature related codes in your application for reliability.\n
+ *
+ * You can check if a device supports the related features for this API by using @ref CAPI_SYSTEM_SYSTEM_INFO_MODULE, thereby controlling the procedure of your application.\n
+ *
+ * To ensure your application is only running on the device with specific features, please define the features in your manifest file using the manifest editor in the SDK.\n
+ *
+ * More details on featuring your application can be found from <a href="https://developer.tizen.org/development/getting-started/native-application/understanding-tizen-programming/application-filtering"><b>Feature List</b>.</a>
  */
 
 #endif /*  __TIZEN_TELEPHONY_PHONE_NUMBER_UTILS_DOC_H__ */
