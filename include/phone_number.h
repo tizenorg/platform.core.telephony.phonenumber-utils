@@ -91,6 +91,32 @@ int phone_number_get_formatted_number(const char *number, phone_number_region_e 
 		char **formatted_number);
 
 /**
+ * @brief This function gets the normalized number.
+ *        Normalized number starts with plus('+') and country code, and excludes the separators such as dash or space.
+ *
+ * @since_tizen 3.0
+ * @privlevel public
+ * @privilege %http://tizen.org/privilege/telephony
+ *
+ * @remarks You must release @a normalized_number using free().
+ *
+ * @param[in]   number             The number
+ * @param[out]  normalized_number  The normalized number string to be returned
+ *
+ * @return     @c 0 on success,
+ *             otherwise a negative error value
+ *
+ * @retval  #PHONE_NUMBER_ERROR_NONE                        Successful
+ * @retval  #PHONE_NUMBER_ERROR_OUT_OF_MEMORY               Out of memory
+ * @retval  #PHONE_NUMBER_ERROR_INVALID_PARAMETER           Invalid parameter
+ * @retval  #PHONE_NUMBER_ERROR_FILE_NO_SPACE_ON_DEVICE     FS Full
+ * @retval  #PHONE_NUMBER_ERROR_NO_DATA                     Requested data does not exist
+ * @retval  #PHONE_NUMBER_ERROR_SYSTEM                      Error from another modules
+ *
+ */
+int phone_number_get_normalized_number(const char *number, char **normalized_number);
+
+/**
  * @}
  */
 

@@ -116,4 +116,20 @@ API int phone_number_get_formatted_number(const char *number, phone_number_regio
 	return PHONE_NUMBER_ERROR_NONE;
 }
 
+API int phone_number_get_normalized_number(const char *number, char **normalized_number)
+{
+	int ret;
+
+	RETVM_IF(NULL == number || '\0' == *number, PHONE_NUMBER_ERROR_INVALID_PARAMETER,
+			"Invalid parameter (number is NULL)");
+	RETVM_IF(NULL == normalized_number, PHONE_NUMBER_ERROR_INVALID_PARAMETER, "Invalid parameter (normalized_number is NULL)");
+
+	ret = phn_get_normalized_number(number, normalized_number);
+	if (PHONE_NUMBER_ERROR_NONE != ret) {
+		ERR("phn_get_normalized_number() Fail(%d)", ret);
+		return ret;
+	}
+
+	return PHONE_NUMBER_ERROR_NONE;
+}
 
