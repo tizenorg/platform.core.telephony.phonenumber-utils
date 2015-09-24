@@ -48,6 +48,9 @@ typedef enum {
 	PHONE_NUMBER_ERROR_NOT_SUPPORTED               = TIZEN_ERROR_NOT_SUPPORTED,             /**< Not supported */
 	/* LOGIC & DATA */
 	PHONE_NUMBER_ERROR_NO_DATA                     = TIZEN_ERROR_NO_DATA,                   /**< Requested data does not exist */
+	/* ENVIRONMENT & OTHER MODULE */
+	PHONE_NUMBER_ERROR_SYSTEM                      /*= TIZEN_ERROR_PHONE_NUMBER | 0xEF,*/       /**< Error from another modules */
+
 } phone_number_error_e;
 
 /**
