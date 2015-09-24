@@ -21,6 +21,10 @@
 
 #include <tizen.h>
 
+#ifndef TIZEN_ERROR_PHONENUMBER_UTILS
+#define TIZEN_ERROR_PHONENUMBER_UTILS -0x03000000
+#endif
+
 /**
  * @file phone_number_errors.h
  */
@@ -48,6 +52,9 @@ typedef enum {
 	PHONE_NUMBER_ERROR_NOT_SUPPORTED               = TIZEN_ERROR_NOT_SUPPORTED,             /**< Not supported */
 	/* LOGIC & DATA */
 	PHONE_NUMBER_ERROR_NO_DATA                     = TIZEN_ERROR_NO_DATA,                   /**< Requested data does not exist */
+	/* ENVIRONMENT & OTHER MODULE */
+	PHONE_NUMBER_ERROR_SYSTEM                      = TIZEN_ERROR_PHONENUMBER_UTILS | 0xEF,  /**< Internal error (Since 3.0) */
+
 } phone_number_error_e;
 
 /**
