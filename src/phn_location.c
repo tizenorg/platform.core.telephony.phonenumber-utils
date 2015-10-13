@@ -198,7 +198,7 @@ int phn_location_get_location_from_extra_data(const char *file, const char *numb
 
 	int i;
 	int telephone_city_count =
-		sizeof(telephone_city_info) /sizeof(struct phn_telephone_city_info);
+		sizeof(telephone_city_info) / sizeof(struct phn_telephone_city_info);
 	for (i = 0; i < telephone_city_count; i++) {
 		gint8 provice_idx;
 		gint16 prefix = telephone_city_info[i].prefix;
@@ -209,15 +209,15 @@ int phn_location_get_location_from_extra_data(const char *file, const char *numb
 			switch (lang_index) {
 			case 0:
 				city_str = telephone_city_info[i].city1;
-				city_str_len = header.telephone_city_len[0]/2;
+				city_str_len = header.telephone_city_len[0] / 2;
 				break;
 			case 1:
 				city_str = telephone_city_info[i].city2;
-				city_str_len = header.telephone_city_len[1]/2;
+				city_str_len = header.telephone_city_len[1] / 2;
 				break;
 			case 2:
 				city_str = telephone_city_info[i].city3;
-				city_str_len = header.telephone_city_len[2]/2;
+				city_str_len = header.telephone_city_len[2] / 2;
 				break;
 			default:
 				ERR("Invalid lang_index(%d)", lang_index);
@@ -229,15 +229,15 @@ int phn_location_get_location_from_extra_data(const char *file, const char *numb
 				switch (lang_index) {
 				case 0:
 					province_str = province_info[provice_idx-1].name1;
-					province_str_len = header.province_name_len[0]/2;
+					province_str_len = header.province_name_len[0] / 2;
 					break;
 				case 1:
 					province_str = province_info[provice_idx-1].name2;
-					province_str_len = header.province_name_len[1]/2;
+					province_str_len = header.province_name_len[1] / 2;
 					break;
 				case 2:
 					province_str = province_info[provice_idx-1].name3;
-					province_str_len = header.province_name_len[2]/2;
+					province_str_len = header.province_name_len[2] / 2;
 					break;
 				default:
 					ERR("Invalid lang_index(%d)", lang_index);
@@ -252,16 +252,16 @@ int phn_location_get_location_from_extra_data(const char *file, const char *numb
 			if (city_temp && province_temp) {
 				int size = strlen(city_temp) + strlen(province_temp);
 				char *location = NULL;
-				location = calloc(size+3, sizeof(char));
+				location = calloc(size + 3, sizeof(char));
 				if (location)
-					snprintf(location, size+3, "%s, %s", city_temp, province_temp);
+					snprintf(location, size + 3, "%s, %s", city_temp, province_temp);
 				*p_location = location;
 			} else if (city_temp) {
 				int size = strlen(city_temp);
 				char *location = NULL;
-				location = calloc(size+1, sizeof(char));
+				location = calloc(size + 1, sizeof(char));
 				if (location)
-					snprintf(location, size+1, "%s", city_temp);
+					snprintf(location, size + 1, "%s", city_temp);
 				*p_location = location;
 			}
 
@@ -306,10 +306,10 @@ int phn_location_get_location_from_extra_data(const char *file, const char *numb
 		return PHONE_NUMBER_ERROR_NOT_SUPPORTED;
 	}
 
-	char num_prefix_str[PHN_LOCATION_CHINA_MOBILE_PREFIX_LEN+1] = {0};
-	char num_suffix_str[PHN_LOCATION_CHINA_MOBILE_SUFFIX_LEN+1] = {0};
+	char num_prefix_str[PHN_LOCATION_CHINA_MOBILE_PREFIX_LEN + 1] = {0};
+	char num_suffix_str[PHN_LOCATION_CHINA_MOBILE_SUFFIX_LEN + 1] = {0};
 	snprintf(num_prefix_str, sizeof(num_prefix_str), "%s", number);
-	snprintf(num_suffix_str, sizeof(num_suffix_str), "%s", number+3);
+	snprintf(num_suffix_str, sizeof(num_suffix_str), "%s", number + 3);
 	int num_prefix = atoi(num_prefix_str);
 	int num_suffix = atoi(num_suffix_str);
 
@@ -317,8 +317,8 @@ int phn_location_get_location_from_extra_data(const char *file, const char *numb
 	for (i = 0; i < mobile_prefix_index_count; i++) {
 		if (num_prefix == mobile_prefix_info[i]) {
 			gint16 mobile_prefix = 0;
-			ret = lseek(fd, (PHN_LOCATION_CHINA_MOBILE_SUFFIX_OFFSET*sizeof(gint16)*i)
-					+ (num_suffix*sizeof(gint16)), SEEK_CUR);
+			ret = lseek(fd, (PHN_LOCATION_CHINA_MOBILE_SUFFIX_OFFSET * sizeof(gint16) * i)
+					+ (num_suffix * sizeof(gint16)), SEEK_CUR);
 			ret = read(fd, &mobile_prefix, sizeof(gint16));
 			WARN_IF(ret < 0, "read() Fail(%d)", errno);
 			if (0 == mobile_prefix) {
@@ -328,37 +328,37 @@ int phn_location_get_location_from_extra_data(const char *file, const char *numb
 
 			switch (lang_index) {
 			case 0:
-				city_str = mobile_city_info[mobile_prefix-1].city1;
-				city_str_len = header.mobile_city_len[0]/2;
+				city_str = mobile_city_info[mobile_prefix - 1].city1;
+				city_str_len = header.mobile_city_len[0] / 2;
 				break;
 			case 1:
-				city_str = mobile_city_info[mobile_prefix-1].city2;
-				city_str_len = header.mobile_city_len[1]/2;
+				city_str = mobile_city_info[mobile_prefix - 1].city2;
+				city_str_len = header.mobile_city_len[1] / 2;
 				break;
 			case 2:
-				city_str = mobile_city_info[mobile_prefix-1].city3;
-				city_str_len = header.mobile_city_len[2]/2;
+				city_str = mobile_city_info[mobile_prefix - 1].city3;
+				city_str_len = header.mobile_city_len[2] / 2;
 				break;
 			default:
 				ERR("Invalid lang_index(%d)", lang_index);
 				break;
 			}
 
-			int province_index = mobile_city_info[mobile_prefix-1].province_index;
+			int province_index = mobile_city_info[mobile_prefix - 1].province_index;
 
 			if (0 < province_index && province_index <= header.province_count) {
 				switch (lang_index) {
 				case 0:
-					province_str = province_info[province_index-1].name1;
-					province_str_len = header.province_name_len[0]/2;
+					province_str = province_info[province_index - 1].name1;
+					province_str_len = header.province_name_len[0] / 2;
 					break;
 				case 1:
-					province_str = province_info[province_index-1].name2;
-					province_str_len = header.province_name_len[1]/2;
+					province_str = province_info[province_index - 1].name2;
+					province_str_len = header.province_name_len[1] / 2;
 					break;
 				case 2:
-					province_str = province_info[province_index-1].name3;
-					province_str_len = header.province_name_len[2]/2;
+					province_str = province_info[province_index - 1].name3;
+					province_str_len = header.province_name_len[2] / 2;
 					break;
 				default:
 					ERR("Invalid lang_index(%d)", lang_index);
@@ -373,16 +373,16 @@ int phn_location_get_location_from_extra_data(const char *file, const char *numb
 			if (city_temp && province_temp) {
 				int size = strlen(city_temp) + strlen(province_temp);
 				char *location = NULL;
-				location = calloc(size+3, sizeof(char));
+				location = calloc(size + 3, sizeof(char));
 				if (location)
-					snprintf(location, size+3, "%s, %s", city_temp, province_temp);
+					snprintf(location, size + 3, "%s, %s", city_temp, province_temp);
 				*p_location = location;
 			} else if (city_temp) {
 				int size = strlen(city_temp);
 				char *location = NULL;
-				location = calloc(size+1, sizeof(char));
+				location = calloc(size + 1, sizeof(char));
 				if (location)
-					snprintf(location, size+1, "%s", city_temp);
+					snprintf(location, size + 1, "%s", city_temp);
 				*p_location = location;
 			}
 			close(fd);

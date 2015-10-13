@@ -116,4 +116,3 @@ API int phone_number_get_formatted_number(const char *number, phone_number_regio
 	return PHONE_NUMBER_ERROR_NONE;
 }
 
-

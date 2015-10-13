@@ -300,7 +300,7 @@ int phn_region_data_get_region_str(phone_number_region_e region, char **region_s
 		return PHONE_NUMBER_ERROR_NONE;
 	}
 
-	for (i = 0; i < sizeof(phn_region_info_table)/sizeof(struct phn_region_info); i++) {
+	for (i = 0; i < sizeof(phn_region_info_table) / sizeof(struct phn_region_info); i++) {
 		if (phn_region_info_table[i].region == region) {
 			*region_str = g_strdup(phn_region_info_table[i].region_str);
 			return PHONE_NUMBER_ERROR_NONE;
@@ -326,7 +326,7 @@ int phn_region_data_get_lang_str(phone_number_lang_e lang, char **lang_str)
 		return PHONE_NUMBER_ERROR_NONE;
 	}
 
-	for (i = 0; i < sizeof(phn_lang_info_table)/sizeof(struct phn_lang_info); i++) {
+	for (i = 0; i < sizeof(phn_lang_info_table) / sizeof(struct phn_lang_info); i++) {
 		if (phn_lang_info_table[i].lang == lang) {
 			*lang_str = g_strdup(phn_lang_info_table[i].lang_str);
 			return PHONE_NUMBER_ERROR_NONE;
@@ -339,7 +339,7 @@ bool phn_region_data_find_match_info(phone_number_region_e region,
 		phone_number_lang_e lang)
 {
 	int i;
-	for (i = 0; i < sizeof(phn_match_info_table)/sizeof(struct phn_match_info); i++) {
+	for (i = 0; i < sizeof(phn_match_info_table) / sizeof(struct phn_match_info); i++) {
 		if (phn_match_info_table[i].region == region
 				&& phn_match_info_table[i].lang == lang) {
 			return true;
@@ -347,3 +347,4 @@ bool phn_region_data_find_match_info(phone_number_region_e region,
 	}
 	return false;
 }
+

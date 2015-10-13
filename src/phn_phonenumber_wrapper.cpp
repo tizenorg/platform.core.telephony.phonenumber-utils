@@ -32,12 +32,12 @@ int phn_get_location_from_number(const char *number, const char *region, const c
 	PhoneNumber phNumber;
 	const PhoneNumberUtil& pn_instance = *PhoneNumberUtil::GetInstance();
 	const PhoneNumberUtil::ErrorType status = pn_instance.Parse(
-		number, region, &phNumber);
+			number, region, &phNumber);
 	RETVM_IF(status != PhoneNumberUtil::NO_PARSING_ERROR, PHONE_NUMBER_ERROR_NO_DATA, "parse() failed(%d)", status);
 
 	const std::string description =
 		PhoneNumberOfflineGeocoder().GetDescriptionForNumber(
-			phNumber, icu::Locale(language));
+				phNumber, icu::Locale(language));
 	*location = g_strdup((gchar *)description.c_str());
 
 	return PHONE_NUMBER_ERROR_NONE;
@@ -48,7 +48,7 @@ int phn_get_formatted_number(const char *number, const char *region, char **form
 	const PhoneNumberUtil& pn_instance = *PhoneNumberUtil::GetInstance();
 	AsYouTypeFormatter *formatter = pn_instance.GetAsYouTypeFormatter(region);
 
-	int i=0;
+	int i = 0;
 	string result;
 	while (number[i] && '\0' != number[i]) {
 		formatter->InputDigit(number[i++], &result);
