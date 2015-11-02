@@ -522,6 +522,10 @@ int phn_get_normalized_number(const char *number, char **out_e164)
 		return PHONE_NUMBER_ERROR_NOT_SUPPORTED;
 	}
 
+	RETVM_IF(NULL == number || '\0' == *number, PHONE_NUMBER_ERROR_INVALID_PARAMETER,
+			"Invalid parameter (number is NULL)");
+	RETVM_IF(NULL == out_e164, PHONE_NUMBER_ERROR_INVALID_PARAMETER, "Invalid parameter (normalized_number is NULL)");
+
 	ret = _phn_get_cc(false, &cc);
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
 		ERR("_phn_get_cc() Fail(%d)", ret);
