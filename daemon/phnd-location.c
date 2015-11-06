@@ -25,9 +25,12 @@
 #include <sys/stat.h>
 #include <glib.h>
 
-#include "phn_common.h"
-#include "phn_region_data.h"
-#include "phn_location.h"
+#include "phone_number_errors.h"
+#include "phn-log.h"
+#include "phn-common.h"
+#include "phnd.h"
+#include "phnd-region-data.h"
+#include "phnd-location.h"
 
 #define PHN_LOCATION_DIR "/opt/usr/data/phonenumber-utils"
 #define PHN_LOCATION_FILE_PREFIX "location"

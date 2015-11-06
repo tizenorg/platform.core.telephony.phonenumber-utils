@@ -25,8 +25,11 @@
 #include <phonenumbers/phonenumberutil.h>
 #include <phonenumbers/asyoutypeformatter.h>
 #include <phonenumbers/geocoding/phonenumber_offline_geocoder.h>
-#include "phn_common.h"
-#include "phn_phonenumber_wrapper.h"
+
+#include "phone_number_errors.h"
+#include "phn-log.h"
+#include "phnd.h"
+#include "phnd-libphonenumber.h"
 
 #define MCC_LEN 3
 #define PHN_FEATURE_TELEPHONY "http://tizen.org/feature/network.telephony"
