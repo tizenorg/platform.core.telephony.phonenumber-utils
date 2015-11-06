@@ -16,21 +16,42 @@
  * limitations under the License.
  *
  */
-#ifndef __PHN_PHONENUMBER_WRAPPER_H__
-#define __PHN_PHONENUMBER_WRAPPER_H__
+#include <stdlib.h>
+#include <pthread.h>
+#include <gio/gio.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "phnd.h"
+#include "phn-common.h"
+#include "phn-log.h"
+#include "phnd-dbus.h"
 
-int phn_get_formatted_number(const char *number, const char *region,
-		char **formatted_number);
-int phn_get_location_from_number(const char *number, const char *region,
-		const char *language, char **location);
-int phn_get_normalized_number(const char *number, char **out_e164);
+static GMainLoop *_main_loop;
 
-#ifdef __cplusplus
+void phnd_daemon_quit()
+{
+	INFO("phonenumber-utils daemon is quit by timeout.");
+	g_main_loop_quit(_main_loop);
+	_main_loop = NULL;
 }
-#endif
 
-#endif /* __PHN_PHONENUMBER_WRAPPER_H__ */
+
+int main(int argc, char **argv)
+{
+	guint id;
+
+	INFO("start phonenumber utils daemon");
+
+	_main_loop = g_main_loop_new(NULL, FALSE);
+
+	id = phnd_dbus_init();
+
+	g_main_loop_run(_main_loop);
+
+	phnd_dbus_deinit(id);
+	g_main_loop_unref(_main_loop);
+
+	return 0;
+}
+
+
+

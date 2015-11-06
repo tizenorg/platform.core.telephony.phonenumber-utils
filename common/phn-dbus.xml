@@ -1,0 +1,23 @@
+<node>
+	<interface name="org.tizen.PhonenumberUtils.dbus">
+		<method name="get_location">
+			<arg type="s" name="number" direction="in"/>
+			<arg type="i" name="region" direction="in"/>
+			<arg type="i" name="lang" direction="in"/>
+			<arg type="s" name="location" direction="out"/>
+			<arg type="i" name="ret" direction="out"/>
+		</method>
+		<method name="get_number">
+			<arg type="s" name="number" direction="in"/>
+			<arg type="i" name="region" direction="in"/>
+			<arg type="s" name="formatted_number" direction="out"/>
+			<arg type="i" name="ret" direction="out"/>
+		</method>
+		<method name="get_normalized_number">
+			<arg type="s" name="number" direction="in"/>
+			<arg type="s" name="normalized_number" direction="out"/>
+			<arg type="i" name="ret" direction="out"/>
+		</method>
+	</interface>
+</node>
+

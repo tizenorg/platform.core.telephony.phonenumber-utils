@@ -1,33 +1,18 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
-
 PROJECT(phonenumber-utils C CXX)
 
-SET(COMMON_CFLAGS "-fvisibility=hidden -fdata-sections -ffunction-sections -Wl,--gc-sections -fPIC")
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${COMMON_CFLAGS} ${EXTRA_CFLAGS}")
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${EXTRA_CXXFLAGS} -Wall -fPIC -std=c++0x -fvisibility=hidden")
-
-SET(SRC_FILE
-	src/phn.c
-	src/phn_location.c
-	src/phn_region_data.c
-	src/phn_phonenumber_wrapper.cpp
-)
 INCLUDE(FindPkgConfig)
-pkg_check_modules(PN_pkgs REQUIRED dlog icu-i18n glib-2.0 capi-base-common capi-system-system-settings tapi capi-system-info)
-INCLUDE_DIRECTORIES(${PN_pkgs_INCLUDE_DIRS})
-LINK_DIRECTORIES(${PN_pkgs_LIBRARY_DIRS})
 
-INCLUDE_DIRECTORIES(include)
-ADD_LIBRARY(${PROJECT_NAME} SHARED ${SRC_FILE})
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${PN_pkgs_LIBRARIES} m phonenumber geocoding)
-SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES VERSION ${FULLVER} SOVERSION ${MAJORVER})
-INSTALL(TARGETS ${PROJECT_NAME} DESTINATION ${LIB_INSTALL_DIR})
+SET(EXTRA_CFLAGS "-fdata-sections -ffunction-sections -Wl,--gc-sections")
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${EXTRA_CFLAGS} -fvisibility=hidden ")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++0x -fvisibility=hidden")
 
-SET(PREFIX ${CMAKE_INSTALL_PREFIX})
-CONFIGURE_FILE(${PROJECT_NAME}.pc.in ${PROJECT_NAME}.pc @ONLY)
-INSTALL(FILES ${PROJECT_NAME}.pc DESTINATION ${LIB_INSTALL_DIR}/pkgconfig)
+SET(CLIENT ${PROJECT_NAME})
+SET(DAEMON "${PROJECT_NAME}-daemon")
+SET(DBUS_INTERFACE "org.tizen.PhonenumberUtils.dbus")
 
-FILE(GLOB HEADER_FILES include/*.h)
-INSTALL(FILES ${HEADER_FILES} DESTINATION ${INCLUDE_INSTALL_DIR}/${PROJECT_NAME})
-INSTALL(DIRECTORY DESTINATION /opt/usr/data/${PROJECT_NAME})
-INSTALL(DIRECTORY DESTINATION /opt/usr/data/${PROJECT_NAME}/downloads)
+ADD_SUBDIRECTORY(common)
+ADD_SUBDIRECTORY(daemon)
+ADD_SUBDIRECTORY(client)
+ADD_SUBDIRECTORY(test)
+
