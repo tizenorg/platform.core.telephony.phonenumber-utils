@@ -25,8 +25,11 @@
 #include <phonenumbers/phonenumberutil.h>
 #include <phonenumbers/asyoutypeformatter.h>
 #include <phonenumbers/geocoding/phonenumber_offline_geocoder.h>
-#include "phn_common.h"
-#include "phn_phonenumber_wrapper.h"
+
+#include "phone_number_errors.h"
+#include "phn-log.h"
+#include "phnd.h"
+#include "phnd-libphonenumber.h"
 
 #define MCC_LEN 3
 #define PHN_FEATURE_TELEPHONY "http://tizen.org/feature/network.telephony"
@@ -521,6 +524,10 @@ int phn_get_normalized_number(const char *number, char **out_e164)
 		ERR("Telephony feature disabled");
 		return PHONE_NUMBER_ERROR_NOT_SUPPORTED;
 	}
+
+	RETVM_IF(NULL == number || '\0' == *number, PHONE_NUMBER_ERROR_INVALID_PARAMETER,
+			"Invalid parameter (number is NULL)");
+	RETVM_IF(NULL == out_e164, PHONE_NUMBER_ERROR_INVALID_PARAMETER, "Invalid parameter (normalized_number is NULL)");
 
 	ret = _phn_get_cc(false, &cc);
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
