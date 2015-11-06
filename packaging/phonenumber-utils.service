@@ -1,0 +1,12 @@
+[Unit]
+Description=Phonenumber Util
+After=dbus.socket dbus.service
+Requires=dbus.socket
+
+[Service]
+Type=dbus
+BusName=org.tizen.PhonenumberUtils.dbus
+ExecStart=/usr/bin/phonenumber-utils-daemon
+
+[Install]
+WantedBy=multi-user.target
