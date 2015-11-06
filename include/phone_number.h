@@ -38,11 +38,45 @@ extern "C"
  */
 
 /**
- * @brief This function gets the location string from number, region and language.
+ * @brief Connects to the phonenumber-utils service.
+ *
+ * @since_tizen 3.0
+ *
+ * @return     @c 0 on success,
+ *             otherwise a negative error value
+ *
+ * @retval  #PHONE_NUMBER_ERROR_NONE                        Successful
+ * @retval  #PHONE_NUMBER_ERROR_SYSTEM               Internal error
+ *
+ * @see phone_number_disconnect()
+ */
+int phone_number_connect(void);
+
+
+/**
+ * @brief Disconnects from the phonenumber-utils service.
+ *
+ * @since_tizen 3.0
+ *
+ * @return     @c 0 on success,
+ *             otherwise a negative error value
+ *
+ * @retval  #PHONE_NUMBER_ERROR_NONE                        Successful
+ * @retval  #PHONE_NUMBER_ERROR_SYSTEM               Internal error
+ *
+ * @see phone_number_connect()
+ */
+int phone_number_disconnect(void);
+
+
+/**
+ * @brief Gets the location string from number, region and language.
  *
  * @since_tizen 2.4
  *
  * @remarks You must release @a location using free().
+ * @remarks The phonenumber-utils is changed to client/server architecture for performance improvement since 3.0.
+ *                phone_number_connect()/phone_number_disconnect() should be called.
  *
  * @param[in]   number    The number
  * @param[in]   region    The region of number
@@ -60,16 +94,21 @@ extern "C"
  * @retval  #PHONE_NUMBER_ERROR_NOT_SUPPORTED               Not supported
  * @retval  #PHONE_NUMBER_ERROR_NO_DATA                     Requested data does not exist
  *
+ * @pre   phone_number_connect() should be called to open a connection to the phonenumber-utils service. (Since 3.0)
+ * @post   phone_number_disconnect() should be called to close a connection to the phonenumber-utils service. (Since 3.0)
+ *
  */
 int phone_number_get_location_from_number(const char *number,
 		phone_number_region_e region, phone_number_lang_e language, char **location);
 
 /**
- * @brief This function gets the formatted number.
+ * @brief Gets the formatted number.
  *
  * @since_tizen 2.4
  *
  * @remarks You must release @a formatted_number using free().
+ * @remarks The phonenumber-utils is changed to client/server architecture for performance improvement since 3.0.
+ *                phone_number_connect()/phone_number_disconnect() should be called.
  *
  * @param[in]   number             The number
  * @param[in]   region             The region of number
@@ -86,6 +125,9 @@ int phone_number_get_location_from_number(const char *number,
  * @retval  #PHONE_NUMBER_ERROR_NOT_SUPPORTED               Not supported
  * @retval  #PHONE_NUMBER_ERROR_NO_DATA                     Requested data does not exist
  *
+ * @pre   phone_number_connect() should be called to open a connection to the phonenumber-utils service. (Since 3.0)
+ * @post   phone_number_disconnect() should be called to close a connection to the phonenumber-utils service. (Since 3.0)
+ *
  */
 int phone_number_get_formatted_number(const char *number, phone_number_region_e region,
 		char **formatted_number);
@@ -100,6 +142,8 @@ int phone_number_get_formatted_number(const char *number, phone_number_region_e 
  * @privilege %http://tizen.org/privilege/telephony
  *
  * @remarks You must release @a normalized_number using free().
+ * @remarks The phonenumber-utils is changed to client/server architecture for performance improvement since 3.0.
+ *                phone_number_connect()/phone_number_disconnect() should be called.
  *
  * @param[in]   number             The number
  * @param[out]  normalized_number  The normalized number string to be returned
@@ -113,7 +157,10 @@ int phone_number_get_formatted_number(const char *number, phone_number_region_e 
  * @retval  #PHONE_NUMBER_ERROR_INVALID_PARAMETER           Invalid parameter
  * @retval  #PHONE_NUMBER_ERROR_PERMISSION_DENIED           Permission denied
  * @retval  #PHONE_NUMBER_ERROR_NO_DATA                     Requested data does not exist
- * @retval  #PHONE_NUMBER_ERROR_SYSTEM                      Error from another modules
+ * @retval  #PHONE_NUMBER_ERROR_SYSTEM                      Internal error
+ *
+ * @pre   phone_number_connect() should be called to open a connection to the phonenumber-utils service. (Since 3.0)
+ * @post   phone_number_disconnect() should be called to close a connection to the phonenumber-utils service. (Since 3.0)
  *
  */
 int phone_number_get_normalized_number(const char *number, char **normalized_number);
