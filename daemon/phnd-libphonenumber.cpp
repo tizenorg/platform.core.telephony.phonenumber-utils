@@ -21,20 +21,16 @@
 #include <glib.h>
 #include <TapiUtility.h>
 #include <ITapiNetwork.h>
-#include <system_info.h>
 #include <phonenumbers/phonenumberutil.h>
 #include <phonenumbers/asyoutypeformatter.h>
 #include <phonenumbers/geocoding/phonenumber_offline_geocoder.h>
-#include "phn_common.h"
-#include "phn_phonenumber_wrapper.h"
+
+#include "phone_number_errors.h"
+#include "phn-log.h"
+#include "phnd.h"
+#include "phnd-libphonenumber.h"
 
 #define MCC_LEN 3
-#define PHN_FEATURE_TELEPHONY "http://tizen.org/feature/network.telephony"
-
-#define PHN_FEATURE_TELEPHONY_INIT_STATE -1
-#define PHN_FEATURE_TELEPHONY_NOT_SUPPORTED 0
-#define PHN_FEATURE_TELEPHONY_SUPPORTED 1
-
 using namespace i18n::phonenumbers;
 
 typedef struct {
@@ -45,8 +41,6 @@ typedef struct {
 static int _cc = 0;
 static TapiHandle **_tapi_handle = NULL;
 static int _modem_num = 0;
-static int _phn_have_telephony_feature = -1;
-
 static int _phn_get_cc(bool reload, int *out_cc);
 
 int phn_get_location_from_number(const char *number, const char *region, const char *language, char **location)
@@ -482,28 +476,6 @@ static int _phn_get_cc(bool reload, int *out_cc)
 	return PHONE_NUMBER_ERROR_NONE;
 }
 
-static int _phn_get_telephony_feature(void)
-{
-	int ret;
-	bool telephony_feature = false;
-
-	if (PHN_FEATURE_TELEPHONY_INIT_STATE != _phn_have_telephony_feature)
-		return _phn_have_telephony_feature;
-
-	ret = system_info_get_platform_bool(PHN_FEATURE_TELEPHONY, &telephony_feature);
-	if (SYSTEM_INFO_ERROR_NONE != ret) {
-		ERR("system_info_get_platform_bool() Fail(%d)", ret);
-		return PHN_FEATURE_TELEPHONY_INIT_STATE;
-	}
-
-	if (false == telephony_feature)
-		_phn_have_telephony_feature = PHN_FEATURE_TELEPHONY_NOT_SUPPORTED;
-	else
-		_phn_have_telephony_feature = PHN_FEATURE_TELEPHONY_SUPPORTED;
-
-	return _phn_have_telephony_feature;
-}
-
 int phn_get_normalized_number(const char *number, char **out_e164)
 {
 	int ret;
@@ -512,19 +484,6 @@ int phn_get_normalized_number(const char *number, char **out_e164)
 	string number_e164;
 	string region_code;
 	const PhoneNumberUtil& pnu = *PhoneNumberUtil::GetInstance();
-
-	ret = _phn_get_telephony_feature();
-	if (PHN_FEATURE_TELEPHONY_INIT_STATE == ret) {
-		ERR("System info error");
-		return PHONE_NUMBER_ERROR_SYSTEM;
-	} else if (PHN_FEATURE_TELEPHONY_NOT_SUPPORTED == ret) {
-		ERR("Telephony feature disabled");
-		return PHONE_NUMBER_ERROR_NOT_SUPPORTED;
-	}
-
-	RETVM_IF(NULL == number || '\0' == *number, PHONE_NUMBER_ERROR_INVALID_PARAMETER,
-			"Invalid parameter (number is NULL)");
-	RETVM_IF(NULL == out_e164, PHONE_NUMBER_ERROR_INVALID_PARAMETER, "Invalid parameter (normalized_number is NULL)");
 
 	ret = _phn_get_cc(false, &cc);
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
