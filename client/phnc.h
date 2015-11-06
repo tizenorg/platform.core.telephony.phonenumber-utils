@@ -1,7 +1,5 @@
 /*
- * Phonenumber Utils
- *
- * Copyright (c) 2015 Samsung Electronics Co., Ltd. All rights reserved.
+ * Copyright (c) 2015 Samsung Electronics Co., Ltd All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +12,17 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
-#ifndef __PHN_REGION_DATA_H__
-#define __PHN_REGION_DATA_H__
+#ifndef __PHONENUMBER_UTILS_CLIENT_H__
+#define __PHONENUMBER_UTILS_CLIENT_H__
 
-#include "phone_number_types.h"
+#include "phn-common.h"
+#include "phn-log.h"
 
-#define PHN_REGION_DEFAULT_LANG "en"
+#ifdef API
+#undef API
+#endif
+#define API __attribute__((visibility("default")))
 
-int phn_region_data_get_region_str(phone_number_region_e region, char **region_str);
-int phn_region_data_get_lang_str(phone_number_lang_e lang, char **lang_str);
-bool phn_region_data_find_match_info(phone_number_region_e region,
-		phone_number_lang_e lang);
+#endif /*__PHONENUMBER_UTILS_CLIENT_H__*/
 
-#endif /* __PHN_REGION_DATA_H__ */

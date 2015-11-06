@@ -38,6 +38,34 @@ extern "C"
  */
 
 /**
+ * @brief This function connect to phonenumber-utils-daemon.
+ *
+ * @since_tizen 3.0
+ *
+ * @return     @c 0 on success,
+ *             otherwise a negative error value
+ *
+ * @retval  #PHONE_NUMBER_ERROR_NONE                        Successful
+ * @retval  #PHONE_NUMBER_ERROR_SYSTEM               Dbus Error
+ *
+ * @see phone_number_disconnect()
+ */
+int phone_number_connect();
+
+
+/**
+ * @brief This function disconnect from phonenumber-utils-daemon.
+ *
+ * @since_tizen 3.0
+ *
+ * @return void
+ *
+ * @see phone_number_connect()
+ */
+void phone_number_disconnect();
+
+
+/**
  * @brief This function gets the location string from number, region and language.
  *
  * @since_tizen 2.4
