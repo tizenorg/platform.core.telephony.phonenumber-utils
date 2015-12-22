@@ -25,8 +25,6 @@
 #include <phonenumbers/asyoutypeformatter.h>
 #include <phonenumbers/geocoding/phonenumber_offline_geocoder.h>
 
-#include "phone_number_errors.h"
-#include "phn-log.h"
 #include "phnd.h"
 #include "phnd-libphonenumber.h"
 
@@ -43,23 +41,25 @@ static TapiHandle **_tapi_handle = NULL;
 static int _modem_num = 0;
 static int _phn_get_cc(bool reload, int *out_cc);
 
-int phn_get_location_from_number(const char *number, const char *region, const char *language, char **location)
+int phn_get_location_from_number(const char *number, const char *region,
+		const char *language, char **location)
 {
 	PhoneNumber phNumber;
 	const PhoneNumberUtil& pn_instance = *PhoneNumberUtil::GetInstance();
 	const PhoneNumberUtil::ErrorType status = pn_instance.Parse(
 			number, region, &phNumber);
-	RETVM_IF(status != PhoneNumberUtil::NO_PARSING_ERROR, PHONE_NUMBER_ERROR_NO_DATA, "parse() failed(%d)", status);
+	RETVM_IF(status != PhoneNumberUtil::NO_PARSING_ERROR, PHONE_NUMBER_ERROR_NO_DATA,
+			"PhoneNumberUtil::Parse() Fail(%d)", status);
 
-	const std::string description =
-		PhoneNumberOfflineGeocoder().GetDescriptionForNumber(
-				phNumber, icu::Locale(language));
+	std::string description = PhoneNumberOfflineGeocoder().GetDescriptionForNumber(phNumber,
+			icu::Locale(language));
 	*location = g_strdup((gchar *)description.c_str());
 
 	return PHONE_NUMBER_ERROR_NONE;
 }
 
-int phn_get_formatted_number(const char *number, const char *region, char **formatted_number)
+int phn_get_formatted_number(const char *number, const char *region,
+		char **formatted_number)
 {
 	const PhoneNumberUtil& pn_instance = *PhoneNumberUtil::GetInstance();
 	AsYouTypeFormatter *formatter = pn_instance.GetAsYouTypeFormatter(region);
@@ -75,7 +75,8 @@ int phn_get_formatted_number(const char *number, const char *region, char **form
 	return PHONE_NUMBER_ERROR_NONE;
 }
 
-static void _phn_cc_changed_cb(TapiHandle *handle, const char *noti_id, void *data, void *user_data)
+static void _phn_cc_changed_cb(TapiHandle *handle, const char *noti_id, void *data,
+		void *user_data)
 {
 	int ret;
 	ret = _phn_get_cc(true, NULL);
@@ -383,7 +384,7 @@ static int _phn_get_cc(bool reload, int *out_cc)
 
 	if (cc_loaded && false == reload) {
 		if (NULL == out_cc) {
-			ERR("Invalid parameter (out_cc is NULL)");
+			ERR("out_cc is NULL");
 			return PHONE_NUMBER_ERROR_INVALID_PARAMETER;
 		}
 
@@ -496,7 +497,7 @@ int phn_get_normalized_number(const char *number, char **out_e164)
 
 	const PhoneNumberUtil::ErrorType status = pnu.Parse(number, region_code, &pn);
 	if (PhoneNumberUtil::NO_PARSING_ERROR != status) {
-		ERR("pnu.Parse() Fail(%d), cc(%d), number(%s), region_code(%s)",
+		ERR("PhoneNumberUtil.Parse() Fail(%d), cc(%d), number(%s), region_code(%s)",
 				status, cc, number, region_code.c_str());
 		return PHONE_NUMBER_ERROR_SYSTEM;
 	}
@@ -509,5 +510,4 @@ int phn_get_normalized_number(const char *number, char **out_e164)
 	return PHONE_NUMBER_ERROR_NONE;
 
 }
-
 

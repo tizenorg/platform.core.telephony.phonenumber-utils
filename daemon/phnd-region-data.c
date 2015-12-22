@@ -20,8 +20,7 @@
 #include <glib.h>
 #include <system_settings.h>
 
-#include "phn-log.h"
-#include "phn-common.h"
+#include "phnd.h"
 #include "phnd-region-data.h"
 
 struct phn_lang_info {

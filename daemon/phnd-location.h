@@ -19,8 +19,6 @@
 #ifndef __PHN_LOCATION_H__
 #define __PHN_LOCATION_H__
 
-#include "phone_number_types.h"
-
 #define PHN_LOCATION_SUPPORT_ZH_CN "zh_CN"
 #define PHN_LOCATION_SUPPORT_EN_CN "en_CN"
 #define PHN_LOCATION_SUPPORT_KO_CN "ko_CN"

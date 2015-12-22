@@ -7,16 +7,8 @@ SET(DAEMON_SRCS ${DAEMON_SRCS} ${CMAKE_SOURCE_DIR}/common/phn-dbus.c)
 SET_SOURCE_FILES_PROPERTIES(${CMAKE_SOURCE_DIR}/common/phn-dbus.c
 	PROPERTIES GENERATED TRUE)
 
-pkg_check_modules(daemon_pkgs REQUIRED
-	dlog
-	icu-i18n
-	glib-2.0
-	gio-2.0
-	gio-unix-2.0
-	capi-base-common
-	capi-system-system-settings
-	tapi
-)
+pkg_check_modules(daemon_pkgs REQUIRED dlog icu-i18n glib-2.0 gio-2.0 gio-unix-2.0
+	capi-base-common capi-system-system-settings tapi)
 
 INCLUDE_DIRECTORIES(${daemon_pkgs_INCLUDE_DIRS})
 LINK_DIRECTORIES(${daemon_pkgs_LIBRARY_DIRS})

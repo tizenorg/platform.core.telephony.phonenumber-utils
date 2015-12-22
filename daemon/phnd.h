@@ -16,7 +16,9 @@
 #ifndef __PHONENUMBER_UTILS_DAEMON_H__
 #define __PHONENUMBER_UTILS_DAEMON_H__
 
+#include "phn-common.h"
 #define PHN_DAEMON_LOG
+#include "phn-log.h"
 
 void phnd_daemon_quit();
 

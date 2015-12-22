@@ -16,34 +16,33 @@
  * limitations under the License.
  *
  */
+#include <stdio.h>
+#include <stdlib.h>
 
-#include "phone_number.h"
+#include <phone_number.h>
 #include "phn-log.h"
 
 int main(int argc, char **argv)
 {
-
-	DBG("start test main !!!");
-
+	int ret;
+	int count = 0;
+	char test_number[11] = {0};
 	char *location = NULL;
 	char *formatted_number = NULL;
 	char *normalized_number = NULL;
-	char test_number[11] = {0};
-	int region = PHONE_NUMBER_REGION_REPUBLIC_OF_KOREA;
 	int lang = PHONE_NUMBER_LANG_KOREAN;
-	int count = 0;
-	int ret;
+	int region = PHONE_NUMBER_REGION_REPUBLIC_OF_KOREA;
+
+	DBG("start test main !!!");
 
 	ret = phone_number_connect();
-
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
-		ERR("client open error!!");
+		ERR("phone_number_connect() Fail(%d)", ret);
 		return 0;
 	}
 
-	while(1) {
-
-		if (count > 5) {
+	while (1) {
+		if (5 < count) {
 			count = 0;
 			break;
 		}
@@ -59,6 +58,7 @@ int main(int argc, char **argv)
 			phone_number_disconnect();
 			return -1;
 		}
+
 		/* location - 'seoul' */
 		DBG("location = %s", location);
 		free(location);
@@ -98,6 +98,4 @@ int main(int argc, char **argv)
 	DBG("end test main !!!");
 	return 0;
 }
-
-
 

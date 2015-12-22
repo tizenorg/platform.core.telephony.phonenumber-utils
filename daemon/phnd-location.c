@@ -25,9 +25,6 @@
 #include <sys/stat.h>
 #include <glib.h>
 
-#include "phone_number_errors.h"
-#include "phn-log.h"
-#include "phn-common.h"
 #include "phnd.h"
 #include "phnd-region-data.h"
 #include "phnd-location.h"
@@ -107,13 +104,13 @@ int phn_location_get_location_from_extra_data(const char *file, const char *numb
 	char file_path[PHN_STR_SHORT_LEN] = {0};
 
 	/* support region - CN, support lang - zh,en,ko */
-	RETV_IF(NULL == region_str, PHONE_NUMBER_ERROR_INVALID_PARAMETER);
+
+	RETV_IF(NULL == number, PHONE_NUMBER_ERROR_INVALID_PARAMETER);
 	RETV_IF(NULL == lang_str, PHONE_NUMBER_ERROR_INVALID_PARAMETER);
+	RETV_IF(NULL == region_str, PHONE_NUMBER_ERROR_INVALID_PARAMETER);
 
 	while (real_number && real_number[0] == '0')
 		real_number++;
-	RETVM_IF(NULL == real_number, PHONE_NUMBER_ERROR_INVALID_PARAMETER, "number=%s",
-			number);
 
 	char lang_region[PHN_STR_SHORT_LEN] = {0};
 	snprintf(lang_region, sizeof(lang_region), "%s_%s", lang_str, region_str);
@@ -288,6 +285,7 @@ int phn_location_get_location_from_extra_data(const char *file, const char *numb
 		close(fd);
 		return PHONE_NUMBER_ERROR_NOT_SUPPORTED;
 	}
+
 	struct phn_mobile_city_info mobile_city_info[header.mobile_city_count];
 	ret = read(fd, &mobile_city_info, sizeof(mobile_city_info));
 	if (ret <= 0) {
@@ -301,6 +299,7 @@ int phn_location_get_location_from_extra_data(const char *file, const char *numb
 		close(fd);
 		return PHONE_NUMBER_ERROR_NOT_SUPPORTED;
 	}
+
 	gint16 mobile_prefix_info[header.mobile_prefix_index_count];
 	ret = read(fd, &mobile_prefix_info, sizeof(mobile_prefix_info));
 	if (ret <= 0) {

@@ -18,11 +18,9 @@
  */
 #include <stdlib.h>
 #include <pthread.h>
-#include <gio/gio.h>
+#include <glib.h>
 
 #include "phnd.h"
-#include "phn-common.h"
-#include "phn-log.h"
 #include "phnd-dbus.h"
 
 static GMainLoop *_main_loop;

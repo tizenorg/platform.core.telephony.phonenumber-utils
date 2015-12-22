@@ -1,6 +1,6 @@
 Name:       phonenumber-utils
 Summary:    Phone Number Utilities
-Version:    0.1.8
+Version:    0.1.9
 Release:    0
 Group:      Telephony/Utilities
 License:    Apache-2.0
@@ -21,7 +21,7 @@ BuildRequires: pkgconfig(capi-system-info)
 BuildRequires: libphonenumber-devel
 
 %define _unitdir /usr/lib/systemd/system
-%define _debus_name org.tizen.PhonenumberUtils.dbus
+%define _dbus_name org.tizen.PhonenumberUtils.dbus
 
 %description
 Phone Number Utilities(location, formatted number, normalized number)
@@ -44,6 +44,7 @@ Tizen Phone Number Utilities tester
 
 %prep
 %setup -q
+chmod g-w %_sourcedir/*
 cp %{SOURCE1001} .
 cp %{SOURCE1002} .
 
@@ -57,15 +58,13 @@ export FFLAGS="$FFLAGS -DTIZEN_DEBUG_ENABLE"
 MAJORVER=`echo %{version} | awk 'BEGIN {FS="."}{print $1}'`
 %cmake . -DMAJORVER=${MAJORVER} -DFULLVER=%{version} -DBIN_INSTALL_DIR:PATH=%{_bindir}
 
+
 %install
 rm -rf %{buildroot}
 %make_install
 
 mkdir -p %{buildroot}%{_unitdir}/multi-user.target.wants
 install -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
-
-mkdir -p %{buildroot}/usr/share/license
-cp LICENSE.APLv2 %{buildroot}/usr/share/license/%{name}
 
 
 %post
@@ -91,12 +90,12 @@ systemctl daemon-reload
 %manifest %{name}.manifest
 %{_unitdir}/%{name}.service
 /opt/usr/data/%{name}
-/opt/usr/data/%{name}/downloads
-%{_datadir}/license/%{name}
 %{_bindir}/%{name}-daemon
-%{_datadir}/dbus-1/system-services/%{_debus_name}.service
-%config %{_sysconfdir}/dbus-1/system.d/%{_debus_name}.conf
+%{_datadir}/dbus-1/system-services/%{_dbus_name}.service
+%config %{_sysconfdir}/dbus-1/system.d/%{_dbus_name}.conf
 %{_libdir}/lib%{name}.so.*
+%license LICENSE.APLv2
+
 
 %files devel
 %defattr(-,root,root,-)
@@ -109,4 +108,5 @@ systemctl daemon-reload
 %defattr(-,root,root,-)
 %manifest %{name}-test.manifest
 %{_bindir}/%{name}-test
+%license LICENSE.APLv2
 

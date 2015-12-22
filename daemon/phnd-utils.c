@@ -16,9 +16,8 @@
  * limitations under the License.
  *
  */
-
 #include <glib.h>
-#include "phn-log.h"
+
 #include "phnd.h"
 #include "phnd-utils.h"
 
@@ -33,6 +32,7 @@ static gboolean _phnd_timeout_cb(gpointer user_data)
 	return FALSE;
 }
 
+/* For on-demand daemon */
 void phnd_utils_start_timeout()
 {
 	DBG("start timeout = %d", _phnd_timeout_sec);

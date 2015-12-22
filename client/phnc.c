@@ -39,10 +39,10 @@
 
 static phnDbus *phn_client_dbus_object;
 
-int _phn_client_dbus_start()
+static int _phn_client_dbus_start()
 {
-	GError *error = NULL;
 	FN_CALL;
+	GError *error = NULL;
 
 	if (phn_client_dbus_object) {
 		DBG("phn_client_dbus_object is already created");
@@ -94,7 +94,7 @@ API int phone_number_connect(void)
 	int ret;
 	FN_CALL;
 
-#if !GLIB_CHECK_VERSION(2,35,0)
+#if !GLIB_CHECK_VERSION(2, 35, 0)
 	g_type_init();
 #endif
 
@@ -108,13 +108,11 @@ API int phone_number_connect(void)
 
 API int phone_number_disconnect(void)
 {
-	if (NULL == phn_client_dbus_object) {
-		ERR("dbus not initialized");
-		return PHONE_NUMBER_ERROR_SYSTEM;
-	}
+	RETV_IF(NULL == phn_client_dbus_object, PHONE_NUMBER_ERROR_SYSTEM);
 
 	g_object_unref(phn_client_dbus_object);
 	phn_client_dbus_object = NULL;
+
 	DBG("client closed");
 
 	return PHONE_NUMBER_ERROR_NONE;
@@ -124,29 +122,27 @@ API int phone_number_disconnect(void)
 API int phone_number_get_location_from_number(const char *number,
 		phone_number_region_e region, phone_number_lang_e lang, char **location)
 {
+	FN_CALL;
+	int ret;
 	GError *error = NULL;
 	char *out_loc = NULL;
-	int ret;
-	FN_CALL;
 
-	RETVM_IF(NULL == number || '\0' == *number, PHONE_NUMBER_ERROR_INVALID_PARAMETER,
-			"Invalid parameter (number is NULL)");
+	RETV_IF(NULL == number, PHONE_NUMBER_ERROR_INVALID_PARAMETER);
+	RETV_IF('\0' == *number, PHONE_NUMBER_ERROR_INVALID_PARAMETER);
+	RETV_IF(NULL == location, PHONE_NUMBER_ERROR_INVALID_PARAMETER);
 	RETVM_IF(region < 0 || PHONE_NUMBER_REGION_MAX <= region,
-			PHONE_NUMBER_ERROR_INVALID_PARAMETER, "Invalid parameter (region:%d)", region);
-	RETVM_IF(lang < 0 || PHONE_NUMBER_LANG_MAX <= lang, PHONE_NUMBER_ERROR_INVALID_PARAMETER,
-			"Invalid parameter (lang:%d)", lang);
-	RETVM_IF(NULL == location, PHONE_NUMBER_ERROR_INVALID_PARAMETER,
-			"Invalid parameter (location is NULL)");
+			PHONE_NUMBER_ERROR_INVALID_PARAMETER, "region(%d) Invalid", region);
+	RETVM_IF(lang < 0 || PHONE_NUMBER_LANG_MAX <= lang,
+			PHONE_NUMBER_ERROR_INVALID_PARAMETER, "lang(%d) Invalid", lang);
 
 	if (NULL == phn_client_dbus_object) {
 		phone_number_connect();
-		phn_dbus_call_get_location_sync (
-			phn_client_dbus_object, number, region, lang, &out_loc, &ret, NULL, &error);
+		phn_dbus_call_get_location_sync(phn_client_dbus_object, number, region, lang,
+				&out_loc, &ret, NULL, &error);
 		phone_number_disconnect();
-	}
-	else {
-		phn_dbus_call_get_location_sync (
-			phn_client_dbus_object, number, region, lang, &out_loc, &ret, NULL, &error);
+	} else {
+		phn_dbus_call_get_location_sync(phn_client_dbus_object, number, region, lang,
+				&out_loc, &ret, NULL, &error);
 	}
 
 	if (NULL != error) {
@@ -169,28 +165,26 @@ API int phone_number_get_location_from_number(const char *number,
 API int phone_number_get_formatted_number(const char *number,
 		phone_number_region_e region, char **formatted_number)
 {
+	FN_CALL;
+	int ret;
 	GError *error = NULL;
 	char *out_num = NULL;
-	int ret;
-	FN_CALL;
 
-	RETVM_IF(NULL == number || '\0' == *number, PHONE_NUMBER_ERROR_INVALID_PARAMETER,
-			"Invalid parameter (number is NULL)");
-	RETVM_IF((int)region < 0 || PHONE_NUMBER_REGION_MAX <= region,
-			PHONE_NUMBER_ERROR_INVALID_PARAMETER, "Invalid parameter (region:%d)", region);
-	RETVM_IF(NULL == formatted_number, PHONE_NUMBER_ERROR_INVALID_PARAMETER,
-			"Invalid parameter (formatted_number is NULL)");
+	RETV_IF(NULL == number, PHONE_NUMBER_ERROR_INVALID_PARAMETER);
+	RETV_IF('\0' == *number, PHONE_NUMBER_ERROR_INVALID_PARAMETER);
+	RETV_IF(NULL == formatted_number, PHONE_NUMBER_ERROR_INVALID_PARAMETER);
+	RETVM_IF(region < 0 || PHONE_NUMBER_REGION_MAX <= region,
+			PHONE_NUMBER_ERROR_INVALID_PARAMETER, "region(%d) Invalid", region);
 
 
 	if (NULL == phn_client_dbus_object) {
 		phone_number_connect();
-		phn_dbus_call_get_number_sync (
-			phn_client_dbus_object, number, region, &out_num, &ret, NULL, &error);
+		phn_dbus_call_get_number_sync(phn_client_dbus_object, number, region, &out_num,
+				&ret, NULL, &error);
 		phone_number_disconnect();
-	}
-	else {
-		phn_dbus_call_get_number_sync (
-			phn_client_dbus_object, number, region, &out_num, &ret, NULL, &error);
+	} else {
+		phn_dbus_call_get_number_sync(phn_client_dbus_object, number, region, &out_num,
+				&ret, NULL, &error);
 	}
 
 	if (NULL != error) {
@@ -212,32 +206,27 @@ API int phone_number_get_formatted_number(const char *number,
 
 API int phone_number_get_normalized_number(const char *number, char **normalized_number)
 {
+	FN_CALL;
+	int ret;
 	GError *error = NULL;
 	char *out_num = NULL;
-	int ret;
-	FN_CALL;
+
+	RETV_IF(NULL == number, PHONE_NUMBER_ERROR_INVALID_PARAMETER);
+	RETV_IF('\0' == *number, PHONE_NUMBER_ERROR_INVALID_PARAMETER);
+	RETV_IF(NULL == normalized_number, PHONE_NUMBER_ERROR_INVALID_PARAMETER);
 
 	ret = _phn_is_support_telephony_feature();
-
-	RETVM_IF(PHN_FEATURE_TELEPHONY_NOT_SUPPORTED == ret,
-			PHONE_NUMBER_ERROR_NOT_SUPPORTED, "Telephony feature is disabled");
-	RETVM_IF(PHONE_NUMBER_ERROR_SYSTEM == ret,
-			PHONE_NUMBER_ERROR_SYSTEM, "Gerring system info error");
-
-	RETVM_IF(NULL == number || '\0' == *number, PHONE_NUMBER_ERROR_INVALID_PARAMETER,
-			"Invalid parameter (number is NULL)");
-	RETVM_IF(NULL == normalized_number, PHONE_NUMBER_ERROR_INVALID_PARAMETER,
-			"Invalid parameter (normalized_number is NULL)");
+	RETV_IF(PHONE_NUMBER_ERROR_SYSTEM == ret, PHONE_NUMBER_ERROR_SYSTEM);
+	RETV_IF(PHN_FEATURE_TELEPHONY_NOT_SUPPORTED == ret, PHONE_NUMBER_ERROR_NOT_SUPPORTED);
 
 	if (NULL == phn_client_dbus_object) {
 		phone_number_connect();
-		phn_dbus_call_get_normalized_number_sync (
-			phn_client_dbus_object, number, &out_num, &ret, NULL, &error);
+		phn_dbus_call_get_normalized_number_sync(phn_client_dbus_object, number, &out_num,
+				&ret, NULL, &error);
 		phone_number_disconnect();
-	}
-	else {
-		phn_dbus_call_get_normalized_number_sync (
-			phn_client_dbus_object, number, &out_num, &ret, NULL, &error);
+	} else {
+		phn_dbus_call_get_normalized_number_sync(phn_client_dbus_object, number, &out_num,
+				&ret, NULL, &error);
 	}
 
 	if (NULL != error) {

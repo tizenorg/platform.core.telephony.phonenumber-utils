@@ -25,32 +25,37 @@
 #include "phnd-location.h"
 #include "phnd-region-data.h"
 
-int _get_location_from_libphonenumber(const char *number,
+static inline int _dbus_get_location_handler(const char *number,
 		phone_number_region_e region, phone_number_lang_e lang, char **location)
 {
-	int ret = PHONE_NUMBER_ERROR_NONE;
-	char *region_str = NULL;
+	int ret;
 	char *lang_str = NULL;
+	char *region_str = NULL;
 	char *location_file = NULL;
 
 	ret = phn_region_data_get_region_str(region, &region_str);
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
 		ERR("phn_region_data_get_region_str() Fail(%d)", ret);
-		goto FREE_N_RETURN;
+		return ret;
 	}
 
 	ret = phn_region_data_get_lang_str(lang, &lang_str);
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
 		ERR("phn_region_data_get_lang_str() Fail(%d)", ret);
-		goto FREE_N_RETURN;
+		free(region_str);
+		return ret;
 	}
 
 	ret = phn_location_find_extra_data(region_str, &location_file);
-	if (PHONE_NUMBER_ERROR_NONE == ret && location_file) {
-		ret = phn_location_get_location_from_extra_data(location_file, number,
-				region_str, lang_str, location);
+	if (PHONE_NUMBER_ERROR_NONE == ret) {
+		ret = phn_location_get_location_from_extra_data(location_file, number, region_str,
+				lang_str, location);
+		free(location_file);
 		if (PHONE_NUMBER_ERROR_NONE == ret && *location) {
-			goto FREE_N_RETURN;
+			/* Found location from Extra data */
+			free(region_str);
+			free(lang_str);
+			return PHONE_NUMBER_ERROR_NONE;
 		}
 	}
 
@@ -62,20 +67,16 @@ int _get_location_from_libphonenumber(const char *number,
 	}
 
 	ret = phn_get_location_from_number(number, region_str, lang_str, location);
-	if (PHONE_NUMBER_ERROR_NONE != ret) {
+	if (PHONE_NUMBER_ERROR_NONE != ret)
 		ERR("phn_get_location_from_number() Fail(%d)", ret);
-		goto FREE_N_RETURN;
-	}
 
-FREE_N_RETURN:
 	free(region_str);
 	free(lang_str);
-	free(location_file);
-	phnd_utils_start_timeout();
+
 	return ret;
 }
 
-int _get_number_from_libphonenumber(const char *number, phone_number_region_e region,
+int _dbus_get_number_handler(const char *number, phone_number_region_e region,
 		char **formatted_number)
 {
 	int ret = PHONE_NUMBER_ERROR_NONE;
@@ -84,23 +85,19 @@ int _get_number_from_libphonenumber(const char *number, phone_number_region_e re
 	ret = phn_region_data_get_region_str(region, &region_str);
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
 		ERR("phn_region_data_get_region_str() Fail(%d)", ret);
-		goto FREE_N_RETURN;
+		return ret;
 	}
 
 	ret = phn_get_formatted_number(number, region_str, formatted_number);
-	if (PHONE_NUMBER_ERROR_NONE != ret) {
+	if (PHONE_NUMBER_ERROR_NONE != ret)
 		ERR("phn_get_formatted_number() Fail(%d)", ret);
-		goto FREE_N_RETURN;
-	}
 
-FREE_N_RETURN:
 	free(region_str);
-	phnd_utils_start_timeout();
 	return ret;
 }
 
 
-int _get_normalized_number_from_libphonenumber(const char *number,
+int _dbus_get_normalized_number_handler(const char *number,
 		char **normalized_number)
 {
 	int ret = PHONE_NUMBER_ERROR_NONE;
@@ -109,7 +106,6 @@ int _get_normalized_number_from_libphonenumber(const char *number,
 	if (PHONE_NUMBER_ERROR_NONE != ret)
 		ERR("phn_get_normalized_number() Fail(%d)", ret);
 
-	phnd_utils_start_timeout();
 	return ret;
 }
 
@@ -122,18 +118,20 @@ static gboolean _dbus_handle_get_location(phnDbus *object,
 		guint signal_number)
 {
 	FN_CALL;
-	char *location;
 	int ret;
+	char *location;
 
 	DBG("number = %s, region = %d, lang = %d", number, region, lang);
 
-	ret = _get_location_from_libphonenumber(number, region, lang, &location);
+	ret = _dbus_get_location_handler(number, region, lang, &location);
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
 		ERR("err ret = %d", ret);
 		location = "";
 	}
 
 	phn_dbus_complete_get_location(object, invocation, location, ret);
+
+	phnd_utils_start_timeout();
 
 	return TRUE;
 }
@@ -150,7 +148,7 @@ static gboolean _dbus_handle_get_number(phnDbus *object,
 
 	DBG("number = %s, region = %d", number, region);
 
-	ret = _get_number_from_libphonenumber(number, region, &formatted_number);
+	ret = _dbus_get_number_handler(number, region, &formatted_number);
 
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
 		ERR("err ret = %d", ret);
@@ -159,6 +157,7 @@ static gboolean _dbus_handle_get_number(phnDbus *object,
 
 	phn_dbus_complete_get_number(object, invocation, formatted_number, ret);
 
+	phnd_utils_start_timeout();
 
 	return TRUE;
 }
@@ -174,13 +173,15 @@ static gboolean _dbus_handle_get_normalized_number(phnDbus *object,
 
 	DBG("number = %s", number);
 
-	ret = _get_normalized_number_from_libphonenumber(number, &normalized_number);
+	ret = _dbus_get_normalized_number_handler(number, &normalized_number);
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
 		ERR("err ret = %d", ret);
 		normalized_number = "";
 	}
 
 	phn_dbus_complete_get_normalized_number(object, invocation, normalized_number, ret);
+
+	phnd_utils_start_timeout();
 
 	return TRUE;
 }
