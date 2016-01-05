@@ -211,13 +211,13 @@ API int phone_number_get_normalized_number(const char *number, char **normalized
 	GError *error = NULL;
 	char *out_num = NULL;
 
-	RETV_IF(NULL == number, PHONE_NUMBER_ERROR_INVALID_PARAMETER);
-	RETV_IF('\0' == *number, PHONE_NUMBER_ERROR_INVALID_PARAMETER);
-	RETV_IF(NULL == normalized_number, PHONE_NUMBER_ERROR_INVALID_PARAMETER);
-
 	ret = _phn_is_support_telephony_feature();
 	RETV_IF(PHONE_NUMBER_ERROR_SYSTEM == ret, PHONE_NUMBER_ERROR_SYSTEM);
 	RETV_IF(PHN_FEATURE_TELEPHONY_NOT_SUPPORTED == ret, PHONE_NUMBER_ERROR_NOT_SUPPORTED);
+
+	RETV_IF(NULL == number, PHONE_NUMBER_ERROR_INVALID_PARAMETER);
+	RETV_IF('\0' == *number, PHONE_NUMBER_ERROR_INVALID_PARAMETER);
+	RETV_IF(NULL == normalized_number, PHONE_NUMBER_ERROR_INVALID_PARAMETER);
 
 	if (NULL == phn_client_dbus_object) {
 		phone_number_connect();
