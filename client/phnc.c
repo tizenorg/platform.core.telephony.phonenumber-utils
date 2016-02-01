@@ -56,7 +56,7 @@ static int _phn_client_dbus_start()
 			NULL,
 			&error);
 	if (NULL == phn_client_dbus_object) {
-		ERR("phn_client_dbus_proxy_new_for_bus_sync() Fail(%s)", error->message);
+		ERR("phn_dbus_proxy_new_for_bus_sync() Fail(%s)", error->message);
 		g_error_free(error);
 		return PHONE_NUMBER_ERROR_SYSTEM;
 	}
@@ -146,7 +146,8 @@ API int phone_number_get_location_from_number(const char *number,
 	}
 
 	if (NULL != error) {
-		ERR("dbus sync error : %s", error->message);
+		ERR("phn_dbus_call_get_location_sync() Fail(%s)", error->message);
+		g_error_free(error);
 		free(out_loc);
 		return PHONE_NUMBER_ERROR_SYSTEM;
 	}
@@ -188,7 +189,8 @@ API int phone_number_get_formatted_number(const char *number,
 	}
 
 	if (NULL != error) {
-		ERR("dbus sync error : %s", error->message);
+		ERR("phn_dbus_call_get_number_sync() Fail(%s)", error->message);
+		g_error_free(error);
 		free(out_num);
 		return PHONE_NUMBER_ERROR_SYSTEM;
 	}
@@ -230,9 +232,14 @@ API int phone_number_get_normalized_number(const char *number, char **normalized
 	}
 
 	if (NULL != error) {
-		ERR("dbus sync error : %s", error->message);
+		ERR("phn_dbus_call_get_normalized_number_sync() Fail(%s)", error->message);
+		if (G_DBUS_ERROR_ACCESS_DENIED == error->code)
+			ret = PHONE_NUMBER_ERROR_PERMISSION_DENIED;
+		else
+			ret = PHONE_NUMBER_ERROR_SYSTEM;
+		g_error_free(error);
 		free(out_num);
-		return PHONE_NUMBER_ERROR_SYSTEM;
+		return ret;
 	}
 
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
