@@ -210,6 +210,118 @@ typedef enum {
 	PHONE_NUMBER_REGION_WESTERN_SAHARA,                             /**< Western Sahara */
 	PHONE_NUMBER_REGION_ZAMBIA,                                     /**< Zambia */
 	PHONE_NUMBER_REGION_ZIMBABWE,                                   /**< Zimbabwe */
+	PHONE_NUMBER_REGION_ANDORRA,                                /**< Andorra (Since 3.0) */
+	PHONE_NUMBER_REGION_UNITED_ARAB_EMIRATES,       /**< United Arab Emirates (Since 3.0) */
+	PHONE_NUMBER_REGION_AFGHANISTAN,                         /**< Afghanistan (Since 3.0) */
+	PHONE_NUMBER_REGION_AUSTRALIA,                              /**< Australia (Since 3.0) */
+	PHONE_NUMBER_REGION_ARUBA,                                     /**< Aruba (Since 3.0) */
+	PHONE_NUMBER_REGION_AZERBAIJAN,                            /**< Azerbaijan (Since 3.0) */
+	PHONE_NUMBER_REGION_BOSNIA_AND_HERZEGOVINA,   /**< Bosnia and Herzegovina (Since 3.0) */
+	PHONE_NUMBER_REGION_BANGLADESH,                          /**< Bangladesh (Since 3.0) */
+	PHONE_NUMBER_REGION_BAHRAIN,                                  /**< Bahrain (Since 3.0) */
+	PHONE_NUMBER_REGION_SAINT_BARTHELEMY,               /**< Saint Barthelemy, French Antilles (Since 3.0) */
+	PHONE_NUMBER_REGION_BRUNEI_DARUSSALAM,            /**< Brunei Darussalam (Since 3.0) */
+	PHONE_NUMBER_REGION_BOLIVIA,                                   /**< Bolivia (Since 3.0) */
+	PHONE_NUMBER_REGION_BHUTAN,                                   /**< Bhutan (Since 3.0) */
+	PHONE_NUMBER_REGION_BELIZE,                                     /**< Belize (Since 3.0) */
+	PHONE_NUMBER_REGION_COCOS_ISLANDS,                    /**< Cocos Islands (Since 3.0) */
+	PHONE_NUMBER_REGION_CENTRAL_AFRICAN_REPUBLIC, /**< Central African Republic (Since 3.0) */
+	PHONE_NUMBER_REGION_COOK_ISLANDS,                       /**< Cook Islands (Since 3.0) */
+	PHONE_NUMBER_REGION_COSTA_RICA,                            /**< Costa Rica (Since 3.0) */
+	PHONE_NUMBER_REGION_CHRISTMAS_ISLANDS,             /**< Christmas Islands (Since 3.0) */
+	PHONE_NUMBER_REGION_CYPRUS,                                   /**< Cyprus (Since 3.0) */
+	PHONE_NUMBER_REGION_DJIBOUTI,                                 /**< Djibouti (Since 3.0) */
+	PHONE_NUMBER_REGION_DENMARK,                                 /**< Denmark (Since 3.0) */
+	PHONE_NUMBER_REGION_ECUADOR,                                 /**< Ecuador (Since 3.0) */
+	PHONE_NUMBER_REGION_ERITREA,                                   /**< Eritrea (Since 3.0) */
+	PHONE_NUMBER_REGION_FIJI,                                           /**< Fiji (Since 3.0) */
+	PHONE_NUMBER_REGION_FALKLAND_ISLANDS,                /**< Falkland Islands (Since 3.0) */
+	PHONE_NUMBER_REGION_MICRONESIA,                             /**< Micronesia, Federated States of (Since 3.0) */
+	PHONE_NUMBER_REGION_FAROE_ISLANDS,                       /**< Faroe Islands (Since 3.0) */
+	PHONE_NUMBER_REGION_GEORGIA,                                  /**< Georgia (Since 3.0) */
+	PHONE_NUMBER_REGION_FRENCH_GUIANA,                      /**< French Guiana (Since 3.0) */
+	PHONE_NUMBER_REGION_GIBRALTAR,                               /**< Gibraltar (Since 3.0) */
+	PHONE_NUMBER_REGION_GUADELOUPE,                           /**< Guadeloupe (Since 3.0) */
+	PHONE_NUMBER_REGION_EQUATORIAL_GUINEA,              /**< Equatorial Guinea (Since 3.0) */
+	PHONE_NUMBER_REGION_GUATEMALA,                            /**< Guatemala (Since 3.0) */
+	PHONE_NUMBER_REGION_GUYANA,                                   /**< Guyana (Since 3.0) */
+	PHONE_NUMBER_REGION_HONG_KONG,                           /**< Hong Kong (Since 3.0) */
+	PHONE_NUMBER_REGION_HONDURAS,                              /**< Honduras (Since 3.0) */
+	PHONE_NUMBER_REGION_CROATIA,                                 /**< Croatia (Since 3.0) */
+	PHONE_NUMBER_REGION_HAITI,                                       /**< Haiti (Since 3.0) */
+	PHONE_NUMBER_REGION_ISRAEL,                                    /**< Israel (Since 3.0) */
+	PHONE_NUMBER_REGION_DIEGO_GARCIA,                        /**< British Indian Ocean Territory / Diego Garcia (Since 3.0) */
+	PHONE_NUMBER_REGION_IRAQ,                                        /**< Iraq (Since 3.0) */
+	PHONE_NUMBER_REGION_KYRGYZSTAN,                           /**< Kyrgyzstan (Since 3.0) */
+	PHONE_NUMBER_REGION_CAMBODIA,                               /**< Cambodia (Since 3.0) */
+	PHONE_NUMBER_REGION_NORTH_KOREA,                         /**< Korea, Dem. People's Rep. of (Since 3.0) */
+	PHONE_NUMBER_REGION_KUWAIT,                                    /**< Kuwait (Since 3.0) */
+	PHONE_NUMBER_REGION_LAOS,                                        /**< Lao People's Dem. Rep. (Since 3.0) */
+	PHONE_NUMBER_REGION_LEBANON,                                  /**< Lebanon (Since 3.0) */
+	PHONE_NUMBER_REGION_LIECHTENSTEIN,                         /**< Liechtenstein (Since 3.0) */
+	PHONE_NUMBER_REGION_LIBERIA,                                    /**< Liberia (Since 3.0) */
+	PHONE_NUMBER_REGION_LIBYA,                                        /**< Libya (Soc. People's Libyan Arab Jamahiriya) (Since 3.0) */
+	PHONE_NUMBER_REGION_MONACO,                                   /**< Monaco (Since 3.0) */
+	PHONE_NUMBER_REGION_MONTENEGRO,                          /**< Montenegro (Since 3.0) */
+	PHONE_NUMBER_REGION_SAINT_MARTIN,                          /**< Saint-Martin, French Antilles (Since 3.0) */
+	PHONE_NUMBER_REGION_MARSHALL_ISLANDS,                /**< Marshall Islands (Since 3.0) */
+	PHONE_NUMBER_REGION_MALI,                                          /**< Mali (Since 3.0) */
+	PHONE_NUMBER_REGION_MYANMAR,                                  /**< Myanmar (Since 3.0) */
+	PHONE_NUMBER_REGION_MONGOLIA,                                /**< Mongolia (Since 3.0) */
+	PHONE_NUMBER_REGION_MACAO,                                     /**< Macao, China (Since 3.0) */
+	PHONE_NUMBER_REGION_MARTINIQUE,                             /**< Martinique (French Dept. of) (Since 3.0) */
+	PHONE_NUMBER_REGION_MALTA,                                      /**< Malta (Since 3.0) */
+	PHONE_NUMBER_REGION_MALDIVES,                                /**< Maldives (Since 3.0) */
+	PHONE_NUMBER_REGION_MALAWI,                                   /**< Malawi (Since 3.0) */
+	PHONE_NUMBER_REGION_MEXICO,                                   /**< Mexico (Since 3.0) */
+	PHONE_NUMBER_REGION_MALAYSIA,                               /**< Malaysia (Since 3.0) */
+	PHONE_NUMBER_REGION_NEW_CALEDONIA,                    /**< New Caledonia (Territoire francais d'outre-mer) (Since 3.0) */
+	PHONE_NUMBER_REGION_NIGER,                                      /**< Niger (Since 3.0) */
+	PHONE_NUMBER_REGION_NORFOLK_ISLAND,                    /**< Norfolk Island (Since 3.0) */
+	PHONE_NUMBER_REGION_NICARAGUA,                              /**< Nicaragua (Since 3.0) */
+	PHONE_NUMBER_REGION_NEPAL,                                       /**< Nepal (Since 3.0) */
+	PHONE_NUMBER_REGION_NAURU,                                     /**< Nauru (Since 3.0) */
+	PHONE_NUMBER_REGION_NIUE,                                         /**< Niue (Since 3.0) */
+	PHONE_NUMBER_REGION_NEW_ZEALAND,                        /**< New Zealand (Since 3.0) */
+	PHONE_NUMBER_REGION_OMAN,                                     /**< Oman (Since 3.0) */
+	PHONE_NUMBER_REGION_PANAMA,                                 /**< Panama (Since 3.0) */
+	PHONE_NUMBER_REGION_FRENCH_POLYNESIA,              /**< French Polynesia (Tahiti) (Territoire francais d'outre-mer) (Since 3.0) */
+	PHONE_NUMBER_REGION_PAPUA_NEW_GUINEA,             /**< Papua New Guinea (Since 3.0) */
+	PHONE_NUMBER_REGION_PHILIPPINES,                           /**< Philippines (Since 3.0) */
+	PHONE_NUMBER_REGION_PAKISTAN,                              /**< Pakistan (Since 3.0) */
+	PHONE_NUMBER_REGION_SAINT_PIERRE_AND_MIQUELON, /**< Saint Pierre and Miquelon (Collectivite territoriale de la Republique francaise) (Since 3.0) */
+	PHONE_NUMBER_REGION_PALESTINIAN_AUTHORITY,     /**< Palestinian Authority (Since 3.0) */
+	PHONE_NUMBER_REGION_PALAU,                                     /**< Palau (Since 3.0) */
+	PHONE_NUMBER_REGION_PARAGUAY,                              /**< Paraguay (Since 3.0) */
+	PHONE_NUMBER_REGION_QATAR,                                     /**< Qatar (Since 3.0) */
+	PHONE_NUMBER_REGION_REUNION,                                  /**< Reunion (French Departments and Territories in the Indian Ocean) (Since 3.0) */
+	PHONE_NUMBER_REGION_RWANDA,                                 /**< Rwanda (Since 3.0) */
+	PHONE_NUMBER_REGION_SOLOMON_ISLANDS,               /**< Solomon Islands (Since 3.0) */
+	PHONE_NUMBER_REGION_SEYCHELLES,                          /**< Seychelles (Since 3.0) */
+	PHONE_NUMBER_REGION_SINGAPORE,                             /**< Singapore (Since 3.0) */
+	PHONE_NUMBER_REGION_SLOVENIA,                               /**< Slovenia (Since 3.0) */
+	PHONE_NUMBER_REGION_SAN_MARINO,                          /**< San Marino (Since 3.0) */
+	PHONE_NUMBER_REGION_SURINAME,                               /**< Suriname (Since 3.0) */
+	PHONE_NUMBER_REGION_SOUTH_SUDAN,                        /**< South Sudan (Since 3.0) */
+	PHONE_NUMBER_REGION_EL_SALVADOR,                         /**< El Salvador (Since 3.0) */
+	PHONE_NUMBER_REGION_SYRIAN_ARAB_REPUBLIC,        /**< Syrian Arab Republic (Since 3.0) */
+	PHONE_NUMBER_REGION_CHAD,                                       /**< Chad (Since 3.0) */
+	PHONE_NUMBER_REGION_TAJIKISTAN,                              /**< Tajikistan (Since 3.0) */
+	PHONE_NUMBER_REGION_TOKELAU,                                 /**< Tokelau (Since 3.0) */
+	PHONE_NUMBER_REGION_TIMOR_LESTE,                          /**< Timor-Leste (East Timor) (Since 3.0) */
+	PHONE_NUMBER_REGION_TURKMENISTAN,                      /**< Turkmenistan (Since 3.0) */
+	PHONE_NUMBER_REGION_TONGA,                                    /**< Tonga (Since 3.0) */
+	PHONE_NUMBER_REGION_TUVALU,                                   /**< Tuvalu (Since 3.0) */
+	PHONE_NUMBER_REGION_TANZANIA,                                /**< Tanzania (Since 3.0) */
+	PHONE_NUMBER_REGION_UKRAINE,                                  /**< Ukraine (Since 3.0) */
+	PHONE_NUMBER_REGION_URUGUAY,                                 /**< Uruguay (Since 3.0) */
+	PHONE_NUMBER_REGION_UZBEKISTAN,                            /**< Uzbekistan (Since 3.0) */
+	PHONE_NUMBER_REGION_VATICAN_CITY,                          /**< Vatican City (Since 3.0) */
+	PHONE_NUMBER_REGION_VANUATU,                                /**< Vanuatu (Since 3.0) */
+	PHONE_NUMBER_REGION_WALLIS_AND_FUTUNA,            /**< Wallis and Futuna (Territoire francais d'outre-mer) (Since 3.0) */
+	PHONE_NUMBER_REGION_SAMOA,                                    /**< Samoa (Since 3.0) */
+	PHONE_NUMBER_REGION_YEMEN,                                     /**< Yemen (Since 3.0) */
+	PHONE_NUMBER_REGION_MAYOTTE,                                /**< Mayotte (Since 3.0) */
 	PHONE_NUMBER_REGION_SYSTEM,                                     /**< Current System Value (Since 3.0) */
 	PHONE_NUMBER_REGION_MAX,
 } phone_number_region_e;
