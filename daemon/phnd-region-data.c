@@ -427,9 +427,10 @@ int phn_region_data_get_lang_str(phone_number_lang_e lang, char **lang_str)
 
 	if (PHONE_NUMBER_LANG_SYSTEM == lang) {
 		char *str = NULL;
+		char *last;
 		ret = system_settings_get_value_string(SYSTEM_SETTINGS_KEY_LOCALE_LANGUAGE, &str);
 		if (str)
-			*lang_str = g_strdup(strtok(str, "_"));
+			*lang_str = g_strdup(strtok_r(str, "_", &last));
 		free(str);
 		if (SYSTEM_SETTINGS_ERROR_NONE != ret) {
 			ERR("system_settings_get_value_string() Fail(%d)", ret);
