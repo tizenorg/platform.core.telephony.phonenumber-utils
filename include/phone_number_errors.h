@@ -21,10 +21,6 @@
 
 #include <tizen.h>
 
-#ifndef TIZEN_ERROR_PHONENUMBER_UTILS
-#define TIZEN_ERROR_PHONENUMBER_UTILS -0x03000000
-#endif
-
 /**
  * @file phone_number_errors.h
  */
