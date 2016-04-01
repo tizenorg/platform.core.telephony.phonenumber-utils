@@ -24,12 +24,13 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <glib.h>
+#include <tzplatform_config.h>
 
 #include "phnd.h"
 #include "phnd-region-data.h"
 #include "phnd-location.h"
 
-#define PHN_LOCATION_DIR "/opt/usr/data/phonenumber-utils"
+#define PHN_LOCATION_DIR tzplatform_mkpath(TZ_SYS_DATA, "phonenumber-utils")
 #define PHN_LOCATION_FILE_PREFIX "location"
 
 #define PHN_LOCATION_CHINA_MOBILE_SUFFIX_OFFSET 10000
