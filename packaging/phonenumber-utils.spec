@@ -21,6 +21,7 @@ BuildRequires: pkgconfig(capi-base-common)
 BuildRequires: pkgconfig(capi-system-system-settings)
 BuildRequires: pkgconfig(tapi)
 BuildRequires: pkgconfig(capi-system-info)
+BuildRequires: pkgconfig(libtzplatform-config)
 BuildRequires: libphonenumber-devel
 
 %define _unitdir /usr/lib/systemd/system
