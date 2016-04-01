@@ -85,7 +85,7 @@ systemctl daemon-reload
 
 
 %files
-%defattr(-,root,root,-)
+%defattr(-,system,system,-)
 %manifest %{name}.manifest
 %{_unitdir}/%{name}.service
 /opt/usr/data/%{name}
@@ -97,14 +97,14 @@ systemctl daemon-reload
 
 
 %files devel
-%defattr(-,root,root,-)
+%defattr(-,system,system,-)
 %{_libdir}/lib%{name}.so
 %{_libdir}/pkgconfig/%{name}.pc
 %{_includedir}/%{name}/*.h
 
 
 %files test
-%defattr(-,root,root,-)
+%defattr(-,system,system,-)
 %manifest %{name}-test.manifest
 %{_bindir}/%{name}-test
 %license LICENSE.APLv2
