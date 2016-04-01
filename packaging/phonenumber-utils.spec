@@ -18,6 +18,7 @@ BuildRequires: pkgconfig(capi-base-common)
 BuildRequires: pkgconfig(capi-system-system-settings)
 BuildRequires: pkgconfig(tapi)
 BuildRequires: pkgconfig(capi-system-info)
+BuildRequires: pkgconfig(libtzplatform-config)
 BuildRequires: libphonenumber-devel
 
 %define _unitdir /usr/lib/systemd/system
@@ -74,8 +75,6 @@ if [ $1 == 1 ]; then
     systemctl restart %{name}.service
 fi
 
-chown :5000 -R /opt/usr/data/%{name}
-chmod 775 -R /opt/usr/data/%{name}
 
 %postun
 /sbin/ldconfig
