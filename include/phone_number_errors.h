@@ -34,7 +34,7 @@
 /**
  * @brief Enumeration for phone number errors.
  *
- * @since_tizen 2.4
+ * @since_tizen @if MOBILE 2.4 @elseif WEARABLE 3.0 @endif
  *
  */
 typedef enum {
