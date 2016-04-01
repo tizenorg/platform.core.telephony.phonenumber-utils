@@ -19,6 +19,7 @@ BuildRequires: pkgconfig(capi-system-system-settings)
 BuildRequires: pkgconfig(tapi)
 BuildRequires: pkgconfig(capi-system-info)
 BuildRequires: pkgconfig(libtzplatform-config)
+BuildRequires: security-config
 BuildRequires: libphonenumber-devel
 
 %define _unitdir /usr/lib/systemd/system
@@ -88,7 +89,6 @@ systemctl daemon-reload
 %defattr(-,root,root,-)
 %manifest %{name}.manifest
 %{_unitdir}/%{name}.service
-/opt/usr/data/%{name}
 %{_bindir}/%{name}-daemon
 %{_datadir}/dbus-1/system-services/%{_dbus_name}.service
 %config %{_sysconfdir}/dbus-1/system.d/%{_dbus_name}.conf
