@@ -72,7 +72,7 @@ int phone_number_disconnect(void);
 /**
  * @brief Gets the location string from number, region and language.
  *
- * @since_tizen 2.4
+ * @since_tizen @if MOBILE 2.4 @elseif WEARABLE 3.0 @endif
  *
  * @remarks You must release @a location using free().
  * @remarks The phonenumber-utils is changed to client/server architecture for performance improvement since 3.0.
@@ -104,7 +104,7 @@ int phone_number_get_location_from_number(const char *number,
 /**
  * @brief Gets the formatted number.
  *
- * @since_tizen 2.4
+ * @since_tizen @if MOBILE 2.4 @elseif WEARABLE 3.0 @endif
  *
  * @remarks You must release @a formatted_number using free().
  * @remarks The phonenumber-utils is changed to client/server architecture for performance improvement since 3.0.
