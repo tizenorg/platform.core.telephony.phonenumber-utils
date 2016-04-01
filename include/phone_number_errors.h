@@ -21,9 +21,6 @@
 
 #include <tizen.h>
 
-#ifndef TIZEN_ERROR_PHONENUMBER_UTILS
-#define TIZEN_ERROR_PHONENUMBER_UTILS -0x03000000
-#endif
 
 /**
  * @file phone_number_errors.h
@@ -38,7 +35,7 @@
 /**
  * @brief Enumeration for phone number errors.
  *
- * @since_tizen 2.4
+ * @since_tizen @if MOBILE 2.4 @elseif WEARABLE 3.0 @endif
  *
  */
 typedef enum {
