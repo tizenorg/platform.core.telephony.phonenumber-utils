@@ -8,9 +8,6 @@ Source0:    %{name}-%{version}.tar.gz
 Source1:    %{name}.service
 Source1001: %{name}.manifest
 Source1002: %{name}-test.manifest
-%if "%{?profile}" == "wearable"
-ExcludeArch: %{arm} %ix86 x86_64
-%endif
 BuildRequires: cmake
 BuildRequires: gettext-devel
 BuildRequires: pkgconfig(glib-2.0)
