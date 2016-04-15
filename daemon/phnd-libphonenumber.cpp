@@ -440,8 +440,8 @@ static int _phn_get_cc(bool reload, int *out_cc)
 		DBG("temp=[%s] from _tapi_handle[%d]", temp, i);
 
 		i++;
-		if (_modem_num <= i) break;
-
+		if (_modem_num <= i)
+			break;
 	} while (NULL == temp || '\0' == temp[0]);
 
 	if (NULL == temp || '\0' == temp[0]) {
@@ -508,6 +508,4 @@ int phn_get_normalized_number(const char *number, char **out_e164)
 	DBG("number_e164=[%s]", *out_e164);
 
 	return PHONE_NUMBER_ERROR_NONE;
-
 }
-
