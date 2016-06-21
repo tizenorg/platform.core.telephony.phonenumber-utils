@@ -33,15 +33,19 @@ static inline int _dbus_get_location_handler(const char *number,
 
 	ret = phn_region_data_get_region_str(region, &region_str);
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
+		//LCOV_EXCL_START
 		ERR("phn_region_data_get_region_str() Fail(%d)", ret);
 		return ret;
+		//LCOV_EXCL_STOP
 	}
 
 	ret = phn_region_data_get_lang_str(lang, &lang_str);
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
+		//LCOV_EXCL_START
 		ERR("phn_region_data_get_lang_str() Fail(%d)", ret);
 		free(region_str);
 		return ret;
+		//LCOV_EXCL_STOP
 	}
 
 	bool exist = phn_region_data_find_match_info(region, lang);
@@ -52,8 +56,11 @@ static inline int _dbus_get_location_handler(const char *number,
 	}
 
 	ret = phn_get_location_from_number(number, region_str, lang_str, location);
-	if (PHONE_NUMBER_ERROR_NONE != ret)
+	if (PHONE_NUMBER_ERROR_NONE != ret) {
+		//LCOV_EXCL_START
 		ERR("phn_get_location_from_number() Fail(%d)", ret);
+		//LCOV_EXCL_STOP
+	}
 
 	free(region_str);
 	free(lang_str);
@@ -69,13 +76,18 @@ int _dbus_get_number_handler(const char *number, phone_number_region_e region,
 
 	ret = phn_region_data_get_region_str(region, &region_str);
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
+		//LCOV_EXCL_START
 		ERR("phn_region_data_get_region_str() Fail(%d)", ret);
 		return ret;
+		//LCOV_EXCL_STOP
 	}
 
 	ret = phn_get_formatted_number(number, region_str, formatted_number);
-	if (PHONE_NUMBER_ERROR_NONE != ret)
+	if (PHONE_NUMBER_ERROR_NONE != ret) {
+		//LCOV_EXCL_START
 		ERR("phn_get_formatted_number() Fail(%d)", ret);
+		//LCOV_EXCL_STOP
+	}
 
 	free(region_str);
 	return ret;
@@ -88,8 +100,11 @@ int _dbus_get_normalized_number_handler(const char *number,
 	int ret = PHONE_NUMBER_ERROR_NONE;
 
 	ret = phn_get_normalized_number(number, normalized_number);
-	if (PHONE_NUMBER_ERROR_NONE != ret)
+	if (PHONE_NUMBER_ERROR_NONE != ret) {
+		//LCOV_EXCL_START
 		ERR("phn_get_normalized_number() Fail(%d)", ret);
+		//LCOV_EXCL_STOP
+	}
 
 	return ret;
 }
@@ -110,8 +125,10 @@ static gboolean _dbus_handle_get_location(phnDbus *object,
 
 	ret = _dbus_get_location_handler(number, region, lang, &location);
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
+		//LCOV_EXCL_START
 		ERR("err ret = %d", ret);
 		location = strdup("");
+		//LCOV_EXCL_STOP
 	}
 
 	phn_dbus_complete_get_location(object, invocation, location, ret);
@@ -136,8 +153,10 @@ static gboolean _dbus_handle_get_number(phnDbus *object,
 	ret = _dbus_get_number_handler(number, region, &formatted_number);
 
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
+		//LCOV_EXCL_START
 		ERR("err ret = %d", ret);
 		formatted_number = strdup("");
+		//LCOV_EXCL_STOP
 	}
 
 	phn_dbus_complete_get_number(object, invocation, formatted_number, ret);
@@ -160,8 +179,10 @@ static gboolean _dbus_handle_get_normalized_number(phnDbus *object,
 
 	ret = _dbus_get_normalized_number_handler(number, &normalized_number);
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
+		//LCOV_EXCL_START
 		ERR("err ret = %d", ret);
 		normalized_number = strdup("");
+		//LCOV_EXCL_STOP
 	}
 
 	phn_dbus_complete_get_normalized_number(object, invocation, normalized_number, ret);
@@ -194,8 +215,10 @@ static void _dbus_bus_acquired_handler(GDBusConnection *conn, const gchar *name,
 			PHN_DBUS_OBJPATH, &error);
 
 	if (FALSE == ret) {
+		//LCOV_EXCL_START
 		ERR("g_dbus_interface_skeleton_export() Fail(%s)", error->message);
 		g_error_free(error);
+		//LCOV_EXCL_STOP
 	}
 }
 
@@ -229,8 +252,10 @@ unsigned int phnd_dbus_init()
 	phnd_utils_start_timeout();
 
 	if (0 == id) {
+		//LCOV_EXCL_START
 		ERR("g_bus_own_name() Fail");
 		return 0;
+		//LCOV_EXCL_STOP
 	}
 
 	return id;
