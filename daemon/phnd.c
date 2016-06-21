@@ -25,13 +25,14 @@
 
 static GMainLoop *_main_loop;
 
+/* LCOV_EXCL_START */
 void phnd_daemon_quit()
 {
 	INFO("phonenumber-utils daemon is quit by timeout.");
 	g_main_loop_quit(_main_loop);
 	_main_loop = NULL;
 }
-
+/* LCOV_EXCL_STOP */
 
 int main(int argc, char **argv)
 {
