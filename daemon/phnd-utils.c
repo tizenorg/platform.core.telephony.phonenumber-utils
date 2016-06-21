@@ -32,9 +32,11 @@ static gboolean _phnd_timeout_cb(gpointer user_data)
 	return FALSE;
 }
 
+void __gcov_flush();
 /* For on-demand daemon */
 void phnd_utils_start_timeout()
 {
+	__gcov_flush();
 	DBG("start timeout = %d", _phnd_timeout_sec);
 	if (_phnd_timeout_sec < 1)
 		return;

@@ -81,8 +81,10 @@ static void _phn_cc_changed_cb(TapiHandle *handle, const char *noti_id, void *da
 	int ret;
 	ret = _phn_get_cc(true, NULL);
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
+		//LCOV_EXCL_START
 		ERR("_phn_get_cc() Fail(%d)", ret);
 		return;
+		//LCOV_EXCL_STOP
 	}
 }
 
@@ -95,8 +97,10 @@ static int _phn_get_tapi_handle()
 
 	cp_list = tel_get_cp_name_list();
 	if (NULL == cp_list) {
+		//LCOV_EXCL_START
 		ERR("tel_get_cp_name_list() Fail(NULL)");
 		return PHONE_NUMBER_ERROR_SYSTEM;
+		//LCOV_EXCL_STOP
 	}
 
 	while (cp_list[_modem_num])
@@ -105,22 +109,27 @@ static int _phn_get_tapi_handle()
 
 	_tapi_handle = (TapiHandle **)calloc(_modem_num, sizeof(TapiHandle *));
 	if (NULL == _tapi_handle) {
+		//LCOV_EXCL_START
 		ERR("calloc() Fail");
 		g_strfreev(cp_list);
 		return PHONE_NUMBER_ERROR_OUT_OF_MEMORY;
+		//LCOV_EXCL_STOP
 	}
 
 	for (i = 0; i < _modem_num; i++) {
 		_tapi_handle[i] = tel_init(cp_list[i]);
 		if (NULL == _tapi_handle[i]) {
+			//LCOV_EXCL_START
 			ERR("tel_init() for _tapi_handle[%d] Fail", i);
 			g_strfreev(cp_list);
 			return PHONE_NUMBER_ERROR_SYSTEM;
+			//LCOV_EXCL_STOP
 		}
 
 		ret = tel_register_noti_event(_tapi_handle[i], TAPI_PROP_NETWORK_PLMN,
 				_phn_cc_changed_cb, NULL);
 		if (TAPI_API_SUCCESS != ret) {
+			//LCOV_EXCL_START
 			if (TAPI_API_ACCESS_DENIED == ret) {
 				ERR("tel_register_noti_event() Fail(%d)", ret);
 				g_strfreev(cp_list);
@@ -130,6 +139,7 @@ static int _phn_get_tapi_handle()
 				g_strfreev(cp_list);
 				return PHONE_NUMBER_ERROR_SYSTEM;
 			}
+			//LCOV_EXCL_STOP
 		}
 	}
 
@@ -399,8 +409,10 @@ static int _phn_get_cc(bool reload, int *out_cc)
 	if (NULL == _tapi_handle) {
 		ret = _phn_get_tapi_handle();
 		if (PHONE_NUMBER_ERROR_NONE != ret) {
+			//LCOV_EXCL_START
 			ERR("_phn_get_tapi_handle() Fail(%d)", ret);
 			return ret;
+			//LCOV_EXCL_STOP
 		}
 	}
 
@@ -411,6 +423,7 @@ static int _phn_get_cc(bool reload, int *out_cc)
 
 		ret = tel_get_property_int(_tapi_handle[i], TAPI_PROP_NETWORK_SERVICE_TYPE, &state);
 		if (TAPI_API_SUCCESS != ret) {
+			//LCOV_EXCL_START
 			if (TAPI_API_ACCESS_DENIED == ret) {
 				ERR("tel_get_property_int() Fail(%d)", ret);
 				return PHONE_NUMBER_ERROR_PERMISSION_DENIED;
@@ -418,6 +431,7 @@ static int _phn_get_cc(bool reload, int *out_cc)
 				ERR("tel_get_property_int() Fail(%d)", ret);
 				return PHONE_NUMBER_ERROR_SYSTEM;
 			}
+			//LCOV_EXCL_STOP
 		}
 
 		if (TAPI_NETWORK_SERVICE_TYPE_UNKNOWN == state
@@ -429,6 +443,7 @@ static int _phn_get_cc(bool reload, int *out_cc)
 
 		ret = tel_get_property_string(_tapi_handle[i], TAPI_PROP_NETWORK_PLMN, &temp);
 		if (TAPI_API_SUCCESS != ret) {
+			//LCOV_EXCL_START
 			if (TAPI_API_ACCESS_DENIED == ret) {
 				ERR("tel_get_property_string() Fail(%d)", ret);
 				return PHONE_NUMBER_ERROR_PERMISSION_DENIED;
@@ -436,6 +451,7 @@ static int _phn_get_cc(bool reload, int *out_cc)
 				ERR("tel_get_property_string() Fail(%d)", ret);
 				return PHONE_NUMBER_ERROR_SYSTEM;
 			}
+			//LCOV_EXCL_STOP
 		}
 		DBG("temp=[%s] from _tapi_handle[%d]", temp, i);
 
@@ -445,9 +461,11 @@ static int _phn_get_cc(bool reload, int *out_cc)
 	} while (NULL == temp || '\0' == temp[0]);
 
 	if (NULL == temp || '\0' == temp[0]) {
+		//LCOV_EXCL_START
 		ERR("get NETWORK_PLMN Fail");
 		free(temp);
 		return PHONE_NUMBER_ERROR_SYSTEM;
+		//LCOV_EXCL_STOP
 	}
 
 	if (temp && MCC_LEN < strlen(temp))
@@ -463,9 +481,11 @@ static int _phn_get_cc(bool reload, int *out_cc)
 	}
 
 	if (0 == _cc) {
+		//LCOV_EXCL_START
 		ERR("No data for current mcc(%s)", mcc);
 		free(temp);
 		return PHONE_NUMBER_ERROR_NO_DATA;
+		//LCOV_EXCL_STOP
 	}
 
 	if (out_cc) {
@@ -488,8 +508,10 @@ int phn_get_normalized_number(const char *number, char **out_e164)
 
 	ret = _phn_get_cc(false, &cc);
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
+		//LCOV_EXCL_START
 		ERR("_phn_get_cc() Fail(%d)", ret);
 		return ret;
+		//LCOV_EXCL_STOP
 	}
 	pnu.GetRegionCodeForCountryCode(cc, &region_code);
 
@@ -497,9 +519,11 @@ int phn_get_normalized_number(const char *number, char **out_e164)
 
 	const PhoneNumberUtil::ErrorType status = pnu.Parse(number, region_code, &pn);
 	if (PhoneNumberUtil::NO_PARSING_ERROR != status) {
+		//LCOV_EXCL_START
 		ERR("PhoneNumberUtil.Parse() Fail(%d), cc(%d), number(%s), region_code(%s)",
 				status, cc, number, region_code.c_str());
 		return PHONE_NUMBER_ERROR_SYSTEM;
+		//LCOV_EXCL_STOP
 	}
 
 	pnu.Format(pn, PhoneNumberUtil::E164, &number_e164);
