@@ -463,7 +463,7 @@ static int _phn_get_cc(bool reload, int *out_cc)
 	}
 
 	if (0 == _cc) {
-		ERR("No data for current mcc(%s)", mcc);
+		ERR("No data for current mcc(%d)", mcc);
 		free(temp);
 		return PHONE_NUMBER_ERROR_NO_DATA;
 	}
