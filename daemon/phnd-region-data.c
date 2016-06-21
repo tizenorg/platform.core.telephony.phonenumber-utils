@@ -406,8 +406,10 @@ int phn_region_data_get_region_str(phone_number_region_e region, char **region_s
 			*region_str = g_strdup(strchr(str, '_') + 1);
 		free(str);
 		if (SYSTEM_SETTINGS_ERROR_NONE != ret) {
+			/* LCOV_EXCL_START */
 			ERR("system_settings_get_value_string() Fail(%d)", ret);
 			return PHONE_NUMBER_ERROR_NOT_SUPPORTED;
+			/* LCOV_EXCL_STOP */
 		}
 		return PHONE_NUMBER_ERROR_NONE;
 	}
@@ -433,8 +435,10 @@ int phn_region_data_get_lang_str(phone_number_lang_e lang, char **lang_str)
 			*lang_str = g_strdup(strtok_r(str, "_", &last));
 		free(str);
 		if (SYSTEM_SETTINGS_ERROR_NONE != ret) {
+			/* LCOV_EXCL_START */
 			ERR("system_settings_get_value_string() Fail(%d)", ret);
 			return PHONE_NUMBER_ERROR_NOT_SUPPORTED;
+			/* LCOV_EXCL_STOP */
 		}
 		return PHONE_NUMBER_ERROR_NONE;
 	}

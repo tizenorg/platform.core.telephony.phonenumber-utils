@@ -56,9 +56,11 @@ static int _phn_client_dbus_start()
 			NULL,
 			&error);
 	if (NULL == phn_client_dbus_object) {
+		/* LCOV_EXCL_START */
 		ERR("phn_dbus_proxy_new_for_bus_sync() Fail(%s)", error->message);
 		g_error_free(error);
 		return PHONE_NUMBER_ERROR_SYSTEM;
+		/* LCOV_EXCL_STOP */
 	}
 
 	return PHONE_NUMBER_ERROR_NONE;
@@ -76,8 +78,10 @@ static int _phn_is_support_telephony_feature()
 
 	err  = system_info_get_platform_bool(PHN_FEATURE_TELEPHONY, &is_support);
 	if (SYSTEM_INFO_ERROR_NONE != err) {
+		/* LCOV_EXCL_START */
 		DBG("Error system_info_get_platform_bool : %d", err);
 		return PHONE_NUMBER_ERROR_SYSTEM;
+		/* LCOV_EXCL_STOP */
 	}
 
 	if (is_support)
@@ -99,8 +103,11 @@ API int phone_number_connect(void)
 #endif
 
 	ret = _phn_client_dbus_start();
-	if (PHONE_NUMBER_ERROR_NONE != ret)
+	if (PHONE_NUMBER_ERROR_NONE != ret) {
+		/* LCOV_EXCL_START */
 		ERR("_phn_client_dbus_start() Fail(%d)", ret);
+		/* LCOV_EXCL_STOP */
+	}
 
 	return ret;
 }
@@ -146,16 +153,20 @@ API int phone_number_get_location_from_number(const char *number,
 	}
 
 	if (NULL != error) {
+		/* LCOV_EXCL_START */
 		ERR("phn_dbus_call_get_location_sync() Fail(%s)", error->message);
 		g_error_free(error);
 		free(out_loc);
 		return PHONE_NUMBER_ERROR_SYSTEM;
+		/* LCOV_EXCL_STOP */
 	}
 
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
+		/* LCOV_EXCL_START */
 		ERR("Phonenumber utils error : %d", ret);
 		free(out_loc);
 		return ret;
+		/* LCOV_EXCL_STOP */
 	}
 
 	*location = out_loc;
@@ -189,16 +200,20 @@ API int phone_number_get_formatted_number(const char *number,
 	}
 
 	if (NULL != error) {
+		/* LCOV_EXCL_START */
 		ERR("phn_dbus_call_get_number_sync() Fail(%s)", error->message);
 		g_error_free(error);
 		free(out_num);
 		return PHONE_NUMBER_ERROR_SYSTEM;
+		/* LCOV_EXCL_STOP */
 	}
 
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
+		/* LCOV_EXCL_START */
 		ERR("Phonenumber utils error : %d", ret);
 		free(out_num);
 		return ret;
+		/* LCOV_EXCL_STOP */
 	}
 
 	*formatted_number = out_num;
@@ -232,6 +247,7 @@ API int phone_number_get_normalized_number(const char *number, char **normalized
 	}
 
 	if (NULL != error) {
+		/* LCOV_EXCL_START */
 		ERR("phn_dbus_call_get_normalized_number_sync() Fail(%s)", error->message);
 		if (G_DBUS_ERROR_ACCESS_DENIED == error->code)
 			ret = PHONE_NUMBER_ERROR_PERMISSION_DENIED;
@@ -240,12 +256,15 @@ API int phone_number_get_normalized_number(const char *number, char **normalized
 		g_error_free(error);
 		free(out_num);
 		return ret;
+		/* LCOV_EXCL_STOP */
 	}
 
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
+		/* LCOV_EXCL_START */
 		ERR("Phonenumber utils error : %d", ret);
 		free(out_num);
 		return ret;
+		/* LCOV_EXCL_STOP */
 	}
 
 	*normalized_number = out_num;
