@@ -132,11 +132,11 @@ static gboolean _dbus_handle_get_location(phnDbus *object,
 	ret = _dbus_get_location_handler(number, region, lang, &location);
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
 		ERR("err ret = %d", ret);
-		location = "";
+		location = strdup("");
 	}
 
 	phn_dbus_complete_get_location(object, invocation, location, ret);
-
+	free(location);
 	phnd_utils_start_timeout();
 
 	return TRUE;
@@ -158,11 +158,11 @@ static gboolean _dbus_handle_get_number(phnDbus *object,
 
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
 		ERR("err ret = %d", ret);
-		formatted_number = "";
+		formatted_number = strdup("");
 	}
 
 	phn_dbus_complete_get_number(object, invocation, formatted_number, ret);
-
+	free(formatted_number);
 	phnd_utils_start_timeout();
 
 	return TRUE;
@@ -182,11 +182,11 @@ static gboolean _dbus_handle_get_normalized_number(phnDbus *object,
 	ret = _dbus_get_normalized_number_handler(number, &normalized_number);
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
 		ERR("err ret = %d", ret);
-		normalized_number = "";
+		normalized_number = strdup("");
 	}
 
 	phn_dbus_complete_get_normalized_number(object, invocation, normalized_number, ret);
-
+	free(normalized_number);
 	phnd_utils_start_timeout();
 
 	return TRUE;
