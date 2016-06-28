@@ -22,9 +22,6 @@
 #include "phnd.h"
 #include "phnd-utils.h"
 #include "phnd-libphonenumber.h"
-#ifdef ENABLE_EXTRA_LOCATION_DATA
-#include "phnd-location.h"
-#endif
 #include "phnd-region-data.h"
 
 static inline int _dbus_get_location_handler(const char *number,
@@ -33,9 +30,6 @@ static inline int _dbus_get_location_handler(const char *number,
 	int ret;
 	char *lang_str = NULL;
 	char *region_str = NULL;
-#ifdef ENABLE_EXTRA_LOCATION_DATA
-	char *location_file = NULL;
-#endif
 
 	ret = phn_region_data_get_region_str(region, &region_str);
 	if (PHONE_NUMBER_ERROR_NONE != ret) {
@@ -49,21 +43,6 @@ static inline int _dbus_get_location_handler(const char *number,
 		free(region_str);
 		return ret;
 	}
-
-#ifdef ENABLE_EXTRA_LOCATION_DATA
-	ret = phn_location_find_extra_data(region_str, &location_file);
-	if (PHONE_NUMBER_ERROR_NONE == ret) {
-		ret = phn_location_get_location_from_extra_data(location_file, number, region_str,
-				lang_str, location);
-		free(location_file);
-		if (PHONE_NUMBER_ERROR_NONE == ret && *location) {
-			/* Found location from Extra data */
-			free(region_str);
-			free(lang_str);
-			return PHONE_NUMBER_ERROR_NONE;
-		}
-	}
-#endif
 
 	bool exist = phn_region_data_find_match_info(region, lang);
 	if (false == exist) {
