@@ -8,6 +8,7 @@ User=service_fw
 Group=service_fw
 Type=dbus
 BusName=org.tizen.PhonenumberUtils.dbus
+SmackProcessLabel=System
 ExecStart=/usr/bin/phonenumber-utils-daemon
 
 [Install]
